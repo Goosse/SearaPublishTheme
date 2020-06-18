@@ -1,0 +1,34 @@
+
+@use '../variables';
+
+//import fonts
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans&display=swap');
+
+@font-face {
+    font-family: Xilosa;
+    src: url(xilosa.ttf);
+}
+
+//Unless specified for a specific element, use Open Sans.
+html{
+	font-family:"Open Sans";
+	font-size: 14px;
+	color: #3F3F3F;
+}
+
+//Headings
+h1, h2{
+	font-family: Xilosa;
+	text-transform: uppercase;
+	font-size: 2em;
+}
+
+h2{
+	color: variables.$green;
+	text-align: center;
+}
+
+h3{
+	font-family: Montserrat;
+	font-size: 1.05vw;
+}

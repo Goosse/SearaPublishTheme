@@ -1,0 +1,38 @@
+@use 'variables';
+
+header{
+	height: 80px;
+	
+	li :not(.selected){
+		font-family: Xilosa;
+		background-color: variables.$green;
+		border-radius: 100px;
+		color:#fff;
+	}
+	
+	li{
+		display: inline-block;
+		margin-left: 22px;
+		a{
+			padding: 5px 20px;
+		}
+	}
+}
+
+.header-wrapper{
+		margin: 10px variables.$side-margins;
+		justify-content: space-between;
+		display: flex;
+	}
+
+.marca img{
+	height:60px;
+}
+
+nav{
+	align-self: center;
+}
+
+ul{
+	list-style-type: none;
+}

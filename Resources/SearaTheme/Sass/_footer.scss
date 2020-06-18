@@ -1,0 +1,41 @@
+@use 'variables';
+
+footer{
+	background-color: variables.$orange;
+	color:#fff;
+	margin-top: 50px;
+}
+
+.footer-wrapper{
+	margin: 0 variables.$side-margins;
+	padding: 30px 0 20px 0;
+}
+
+.social-wrapper{
+	width:300px;
+	margin:0 auto 30px auto;
+}
+
+.participe-social{
+	font-family: Xilosa;
+	font-size: 1.5em;
+	text-align: center;
+	margin:0;
+}
+
+.social-buttons-list {
+	display:flex;
+	justify-content: space-around;
+	li{
+		
+	}
+	img {
+		width: 40px;
+	}
+}
+
+.copyright-wrapper{
+	border-top: solid 1px #fff;
+	font-size: 0.8em;
+}
+

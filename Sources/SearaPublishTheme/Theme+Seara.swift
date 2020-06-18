@@ -7,6 +7,7 @@
 import Plot
 import Publish
 import Files
+import Foundation
 
 public extension Theme {
     
@@ -14,7 +15,16 @@ public extension Theme {
     static var seara: Self {
         Theme(
             htmlFactory: SearaHTMLFactory(),
-            resourcePaths: ["Resources/SearaTheme/styles.css", "Resources/SearaTheme/playerScript.js"]
+            resourcePaths: ["Resources/SearaTheme/styles.css",
+                            "Resources/SearaTheme/playerScript.js",
+                            "Resources/SearaTheme/theme-resources/marca.jpg",
+                            "Resources/SearaTheme/theme-resources/banner-marca-color-75.png",
+                            "Resources/SearaTheme/theme-resources/facebook.png",
+                            "Resources/SearaTheme/theme-resources/instagram.png",
+                            "Resources/SearaTheme/theme-resources/whatsapp.png",
+                            "Resources/SearaTheme/theme-resources/youtube.png",
+                            "Resources/SearaTheme/xilosa.ttf"
+            ]
         )
     }
 }
@@ -26,15 +36,26 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: index, on: context.site),
             .body(
-                .header(for: context, selectedSection: nil),
-                .wrapper(
-                    .h1(.text(index.title)),
-                    .p(
-                        .class("description"),
-                        .text(context.site.description)
+                .header(for: context, currentPagePath: index.path),
+                .banner("green",  .div( .class("info"),
+                                        .h1(.text(index.title)),
+                                        .p(
+                                            .class("description"),
+                                            .text(context.site.description)
+                    )
                     ),
-                    .h2("Nossos programas"),
-                    .sectionListWithAddedPages(for: context.sections, and: [context.pages[Path("ao-vivo")]!])
+                        .unwrap(context.site.imagePath) { .div(.class("banner-artwork"),
+                                 .a(.href("/ao-vivo"),
+                                    .img(.src($0)),
+                                    .p(.class("ouca-agora"),"Ouça Agora"),
+                                    .p(.class("no-ar"),"NO AR"),
+                                    .p(.class("programa-no-ar"),"Seara Esporte Clube")
+                                )
+                        )}
+                ),
+                .div( .class("wrapper home"),
+                    .h2("Programas"),
+                    .sectionList(for: context.sections)
                     //                    .sectionList
                     //                    .sectionList  (for: context.sections)
                 ),
@@ -49,7 +70,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: section, on: context.site),
             .body(
-                .header(for: context, selectedSection: section.id),
+                .header(for: context, currentPagePath: nil),
                 .wrapper(
                     .h1(.text(section.title)),
                     .itemList(for: section.items, on: context.site)
@@ -66,7 +87,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: item, on: context.site),
             .body(
                 .class("item-page"),
-                .header(for: context, selectedSection: item.sectionID),
+                .header(for: context, currentPagePath: nil),
                 .wrapper(
                     .article(
                         .div(
@@ -93,7 +114,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site)   ,
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, currentPagePath: page.path),
                 .wrapper(.contentBody(page.body)),
                 .footer(for: context.site)
             )
@@ -108,7 +129,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, currentPagePath: page.path),
                 .wrapper(.unwrap(page.audio, { .searaPlayer(for: $0, artworkSrc: Path("/recursos/missingArtwork.jpg")) }),
                          .contentBody(page.body)),
                 .footer(for: context.site),
@@ -123,7 +144,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, currentPagePath: nil),
                 .wrapper(
                     .h1("Browse all tags"),
                     .ul(
@@ -150,7 +171,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: page, on: context.site),
             .body(
-                .header(for: context, selectedSection: nil),
+                .header(for: context, currentPagePath: nil),
                 .wrapper(
                     .h1(
                         "Tagged with ",
@@ -182,24 +203,30 @@ private extension Node where Context == HTML.BodyContext {
         .div(.class("wrapper"), .group(nodes))
     }
     
+    static func banner(_ colorClass: String,_ nodes: Node...) -> Node {
+        .div(.class("banner \(colorClass)"), .group(nodes))
+    }
+    
     static func header<T: Website>(
         for context: PublishingContext<T>,
-        selectedSection: T.SectionID?
+        currentPagePath: Path?
     ) -> Node {
-        let sectionIDs = T.SectionID.allCases
         
         return .header(
-            .wrapper(
-                .a(.class("site-name"), .href("/"), .text(context.site.name)),
-                .if(sectionIDs.count > 1,
-                    .nav(
-                        .ul(.forEach(sectionIDs) { section in
-                            .li(.a(
-                                .class(section == selectedSection ? "selected" : ""),
-                                .href(context.sections[section].path),
-                                .text(context.sections[section].title)
-                                ))
-                            })
+            .div(.class("header-wrapper"),
+                .a(.class("marca"), .href("/"), .img(.src("/marca.jpg"))),
+                .nav(
+                    .ul(
+                        .li(.a(
+                            .class(currentPagePath == "" ? "selected" : ""),
+                            .href("/"),
+                            .text("Programas")
+                            )),
+                        .li(.a(
+                            .class(currentPagePath == "ao-vivo" ? "selected" : ""),
+                            .href("/ao-vivo"),
+                            .text("Ao Vivo")
+                            ))
                     )
                 )
             )
@@ -222,24 +249,26 @@ private extension Node where Context == HTML.BodyContext {
         )
     }
     
-    static func sectionListWithAddedPages<T: Website>(for sections: SectionMap<T>, and pages: [Page]) -> Node {
+    static func sectionList<T: Website>(for sections: SectionMap<T>) -> Node {
         return .ul(
-            .class("item-list"),
-            .forEach(pages) { page in
-                .li(.article(
-                    .h1(.a(
-                        .href(page.path),
-                        .text(page.title)
-                        ))
-                    ))
-            },
+            .class("program-list"),
             .forEach(sections) { section in
-                .li(.article(
-                    .h1(.a(
-                        .href(section.path),
+                .li(
+                    .a(.href(section.path),
+                       .unwrap(section.imagePath){
+                        .div(.class("artwork-wrapper"),
+                             .img(.src($0)),
+                             .div(.class("tint"),
+                                     .div(.class("play-overlay"))
+                            )
+                        )},
+                       .h3(
                         .text(section.title)
-                        ))
-                    ))
+                        ),
+                       .p(
+                        .text("Sinopse lorem ipsum dolor site amet"))
+                    )
+                )
             }
         )
     }
@@ -255,17 +284,51 @@ private extension Node where Context == HTML.BodyContext {
     
     static func footer<T: Website>(for site: T) -> Node {
         return .footer(
-            .p(
-                .text("Generated using "),
-                .a(
-                    .text("Publish"),
-                    .href("https://github.com/johnsundell/publish")
+            .div(.class("footer-wrapper"),
+                 .div(.class("social-wrapper"),
+                      .p(.class("participe-social"),
+                        .text("Participe de Nossas Redes Sociais")
+                        ),
+                      .ul(.class("social-buttons-list"),
+                          .li(.a(
+                            .href(Path("https://fb.me/RadioSeara102.7")),
+                            .target(.blank),
+                            .rel(.noopener),
+                            .rel(.noreferrer),
+                                  .img(.src("/facebook.png"))
+                            )
+                        ),
+                          .li(.a(
+                              .href(Path("https://www.youtube.com/channel/UCiMyTT5oSoh69sDJNsOpDlg")),
+                              .target(.blank),
+                              .rel(.noopener),
+                              .rel(.noreferrer),
+                                    .img(.src("/youtube.png"))
+                              )
+                          ),
+                          .li(.a(
+                              .href(Path("https://www.instagram.com/radioseara/")),
+                              .target(.blank),
+                              .rel(.noopener),
+                              .rel(.noreferrer),
+                                    .img(.src("/instagram.png"))
+                              )
+                          ),
+                          .li(.a(
+                              .href(Path("https://wa.me/558836721221")),
+                              .target(.blank),
+                              .rel(.noopener),
+                              .rel(.noreferrer),
+                                    .img(.src("/whatsapp.png"))
+                              )
+                          )
+                    )
+                ),
+                 .div(.class("copyright-wrapper"),
+                      .p(.class("copyright"),
+                         .text("&copy;\(Calendar.current.component(.year, from: Date())) Rádio Seara - Todos os direitos reservados."))
                 )
-            ),
-            .p(.a(
-                .text("RSS feed"),
-                .href("/feed.rss")
-                ))
+            )
         )
     }
     

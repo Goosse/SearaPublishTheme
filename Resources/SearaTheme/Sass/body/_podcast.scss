@@ -1,0 +1,147 @@
+@use '../variables';
+
+.wrapper.episodios{
+	padding:0 variables.$side-margins;
+    display:flex;
+    flex-direction: column;
+}
+.episodios{
+    article{
+        padding: 10px 50px;
+        border:solid 1px #B3B3B3;
+        margin-bottom:25px;
+        display:flex;
+        box-shadow: 10px 4px 20px 0 rgba(148, 148, 148, 0.5);
+        }
+    
+    .play{
+        cursor: pointer;
+        padding: 0;
+        background-color: #fff;
+        border:solid 1px;
+        border-color: variables.$light-gray;
+        margin: auto 0;
+        &:after {
+				border-color: transparent transparent transparent variables.$gray;
+			}
+    }
+    
+    .info{
+        margin: 0 50px;
+    }
+    
+    .date-time{
+        color:variables.$light-gray;
+        font-size:0.8em;
+        margin:0;
+    }
+    
+    .description{
+        text-align: justify;
+    }
+    
+    .tag-list{
+        display:flex;
+        li{
+            margin-right:10px;
+            color:#fff;
+            padding: 0 10px;
+            height:25px;
+            line-height: 25px;
+            border-radius: 12.5px;
+        }
+    }
+    
+    .compartilhar{
+        margin: auto 0 auto auto;
+    }
+}
+
+.compartilhar, .call-to-subscribe{
+    cursor: pointer;
+    color: #fff;
+    border: none;
+    border-radius: 20px;
+    background-color:variables.$green;
+    padding: 0 15px;
+    line-height: 30px;
+    height: 30px;
+}
+
+.compartilhar{
+    display:flex;
+        .icon{
+             background-image: variables.inline-svg(variables.$svg-compartilhar);
+            height: 24px;
+            width: 19px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin: 2px 5px 0 0;
+        }
+}
+
+.call-to-subscribe{
+    font-family: Xilosa;
+    font-size: 1.2em;
+    margin: auto;
+    padding: 0 20px;
+    line-height: 40px;
+    height: 40px;
+}
+
+
+//Special coloring for each podcast page
+
+.algemas-quebradas{
+    .compartilhar,.call-to-subscribe, .tag-list li{
+        background-color: variables.$algemas-red;
+    }     
+}
+
+.culto-ice-nova-russas{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$culto-purple;
+    }     
+}
+
+.empreendedores-de-futuro{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$empreendedores-blue;
+    }     
+}
+
+.familia-bencao-de-deus{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$familia-blue;
+    }     
+}
+
+.jornal-seara{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$jornal-dark-blue;
+    }     
+}
+
+.luz-da-vida{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$luz-da-vida-yellow;
+    }     
+}
+
+.minha-historia{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$minha-historia-green;
+    }     
+}
+
+.seara-esporte-clube{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$esporte-orange;
+    }     
+}
+
+.uma-vida-a-dois{
+    .compartilhar,.call-to-subscribe{
+        background-color: variables.$vida-a-dois-pink;
+    }     
+}

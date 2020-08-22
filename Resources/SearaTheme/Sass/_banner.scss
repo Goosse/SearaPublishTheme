@@ -3,9 +3,22 @@
 .banner{
 	height: 220px;
 	padding:0 variables.$side-margins*2 0 variables.$side-margins;
-	color: #fff;
+	color: white;
 	display: flex;
 	justify-content: space-between;
+	background-image: url("banner-marca-color-75.png");
+	background-position: right; 
+	background-repeat: no-repeat;
+	background-size:contain;
+	background-blend-mode: luminosity;
+	
+	&.green{
+		background-color: variables.$green;
+	}
+	
+	&.orange{
+		background-color: variables.$orange;
+	}
 	
 	.info{
 		align-self: center;
@@ -13,14 +26,7 @@
 	.description{
 		max-width: 345px;
 	}
-}
-.banner.green{
-	background-color: variables.$green;
-	background-image: url("banner-marca-color-75.png"); /* The image used */
-	background-position: right; /* Center the image */
-	background-repeat: no-repeat; /* Do not repeat the image */
-	background-size:contain;
-	background-blend-mode: luminosity;
+
 }
 
 .banner-artwork{

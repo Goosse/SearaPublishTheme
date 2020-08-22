@@ -13,7 +13,7 @@
 html{
 	font-family:"Open Sans";
 	font-size: 14px;
-	color: #3F3F3F;
+	color: variables.$side-margins;
 }
 
 //Headings
@@ -31,4 +31,17 @@ h2{
 h3{
 	font-family: Montserrat;
 	font-size: 1.05vw;
+}
+
+button{
+    font-family:"Open Sans";
+    font-size: .9em;
+}
+
+.wrapper.episodios{
+    h3{
+        font-size:1.3em;
+        margin: 0 0 3px 0;
+        font-weight: 400;
+    }
 }

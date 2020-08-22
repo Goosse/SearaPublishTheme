@@ -1,7 +1,7 @@
 @use '../variables';
 
 .wrapper.home{
-	//margin: 0 auto;
+	padding:0 variables.$side-margins*2;
 }
 
 .program-list{
@@ -19,10 +19,9 @@
 			background:rgba(variables.$green, 0.82);
 		}
 		
-		&:hover .play-overlay {
+		&:hover .play.overlay {
   			background: rgba(#fff, 0.5);
   			
-	
 			&:after {
 				border-color: transparent transparent transparent white;
 			}
@@ -48,22 +47,12 @@
 		transition: all .3s linear;
 	}
 	
-	.play-overlay{
-		width: 50px;
-  		height: 50px;
-		border-radius: 100%;
-		margin: auto;
+	.play.overlay{
 		transition: all .3s linear;
-		
+        margin: auto;
+
 		&:after {
-				content: "";
-				display: inline-block;
-				position: relative;
-				top: 12px;
-				left: 3px;
-				border-style: solid;
-				border-width: 12px 0 12px 20px;
-				border-color: transparent;
+                border-color: transparent;
 				transition: all .3s linear;
 			}
 	}

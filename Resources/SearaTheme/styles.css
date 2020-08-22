@@ -6,7 +6,7 @@
 html {
   font-family: "Open Sans";
   font-size: 14px;
-  color: #3F3F3F;
+  color: 10%;
 }
 
 h1, h2 {
@@ -23,6 +23,17 @@ h2 {
 h3 {
   font-family: Montserrat;
   font-size: 1.05vw;
+}
+
+button {
+  font-family: "Open Sans";
+  font-size: 0.9em;
+}
+
+.wrapper.episodios h3 {
+  font-size: 1.3em;
+  margin: 0 0 3px 0;
+  font-weight: 400;
 }
 
 header {
@@ -63,27 +74,26 @@ ul {
 .banner {
   height: 220px;
   padding: 0 20% 0 10%;
-  color: #fff;
+  color: white;
   display: flex;
   justify-content: space-between;
+  background-image: url("banner-marca-color-75.png");
+  background-position: right;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-blend-mode: luminosity;
+}
+.banner.green {
+  background-color: #007985;
+}
+.banner.orange {
+  background-color: #EC9F17;
 }
 .banner .info {
   align-self: center;
 }
 .banner .description {
   max-width: 345px;
-}
-
-.banner.green {
-  background-color: #007985;
-  background-image: url("banner-marca-color-75.png");
-  /* The image used */
-  background-position: right;
-  /* Center the image */
-  background-repeat: no-repeat;
-  /* Do not repeat the image */
-  background-size: contain;
-  background-blend-mode: luminosity;
 }
 
 .banner-artwork {
@@ -109,7 +119,21 @@ p.programa-no-ar {
   font-size: 0.8em;
 }
 
-body .wrapper {
+.play {
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  box-sizing: border-box;
+}
+.play:after {
+  content: "";
+  display: inline-block;
+  margin: 13px 17px;
+  border-style: solid;
+  border-width: 12px 0 12px 20px;
+}
+
+.wrapper.home {
   padding: 0 20%;
 }
 
@@ -127,10 +151,10 @@ body .wrapper {
 .program-list li:hover .tint {
   background: rgba(0, 121, 133, 0.82);
 }
-.program-list li:hover .play-overlay {
+.program-list li:hover .play.overlay {
   background: rgba(255, 255, 255, 0.5);
 }
-.program-list li:hover .play-overlay:after {
+.program-list li:hover .play.overlay:after {
   border-color: transparent transparent transparent white;
 }
 .program-list img {
@@ -149,21 +173,11 @@ body .wrapper {
   display: flex;
   transition: all 0.3s linear;
 }
-.program-list .play-overlay {
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  margin: auto;
+.program-list .play.overlay {
   transition: all 0.3s linear;
+  margin: auto;
 }
-.program-list .play-overlay:after {
-  content: "";
-  display: inline-block;
-  position: relative;
-  top: 12px;
-  left: 3px;
-  border-style: solid;
-  border-width: 12px 0 12px 20px;
+.program-list .play.overlay:after {
   border-color: transparent;
   transition: all 0.3s linear;
 }
@@ -174,6 +188,124 @@ body .wrapper {
   color: #949494;
   margin: 0;
   font-size: 0.8vw;
+}
+
+.wrapper.episodios {
+  padding: 0 10%;
+  display: flex;
+  flex-direction: column;
+}
+
+.episodios article {
+  padding: 10px 50px;
+  border: solid 1px #B3B3B3;
+  margin-bottom: 25px;
+  display: flex;
+  box-shadow: 10px 4px 20px 0 rgba(148, 148, 148, 0.5);
+}
+.episodios .play {
+  cursor: pointer;
+  padding: 0;
+  background-color: #fff;
+  border: solid 1px;
+  border-color: #949494;
+  margin: auto 0;
+}
+.episodios .play:after {
+  border-color: transparent transparent transparent #3F3F3F;
+}
+.episodios .info {
+  margin: 0 50px;
+}
+.episodios .date-time {
+  color: #949494;
+  font-size: 0.8em;
+  margin: 0;
+}
+.episodios .description {
+  text-align: justify;
+}
+.episodios .tag-list {
+  display: flex;
+}
+.episodios .tag-list li {
+  margin-right: 10px;
+  color: #fff;
+  padding: 0 10px;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 12.5px;
+}
+.episodios .compartilhar {
+  margin: auto 0 auto auto;
+}
+
+.compartilhar, .call-to-subscribe {
+  cursor: pointer;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  background-color: #007985;
+  padding: 0 15px;
+  line-height: 30px;
+  height: 30px;
+}
+
+.compartilhar {
+  display: flex;
+}
+.compartilhar .icon {
+  background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 247 320" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-miterlimit="10"%3E%3Cpath d="M125.744 50.212V186.87c0 .783-.525 1.308-1.309 1.308h-2.35c-.783 0-1.308-.525-1.308-1.308V50.212L88.902 82.087c-.792.266-1.308.266-1.833 0l-1.567-1.567c-.783-.783-.783-1.308 0-2.092l34.75-34.75c1.833-2.35 3.925-2.35 6.275 0l34.75 34.75c.792.784.792 1.309 0 2.092l-1.567 1.567c-.783.525-1.308.525-2.091 0l-31.875-31.875zm-44.159 69.766c-9.666 0-17.775 3.4-24.3 9.925-6.8 6.8-10.191 14.9-10.191 24.567v83.617c0 9.666 3.391 17.766 10.191 24.566 6.525 6.525 14.634 9.925 24.3 9.925h83.609c9.675 0 17.775-3.4 24.566-9.925 6.534-6.8 9.934-14.9 9.934-24.566V154.47c0-9.667-3.4-17.767-9.934-24.567-6.791-6.525-14.891-9.925-24.566-9.925h-15.409c-1.05 0-1.575-.516-1.575-1.566v-2.092c0-.783.525-1.308 1.309-1.308h15.675c10.716 0 20.125 3.925 27.966 11.5 7.575 7.841 11.492 17.25 11.492 27.958v83.617c0 10.716-3.917 20.116-11.492 27.958-7.841 7.583-17.25 11.5-27.966 11.5H81.585c-10.975 0-20.383-3.917-27.958-11.5-7.842-7.842-11.758-17.242-11.758-27.958V154.47c0-10.708 3.916-20.117 11.758-27.958 7.575-7.575 16.983-11.5 27.958-11.5h15.417c.783 0 1.3.525 1.3 1.308v2.092c0 1.05-.517 1.566-1.3 1.566H81.585z" fill="%23fff" fill-rule="nonzero" stroke="%23fff" stroke-width="8.33333"/%3E%3C/svg%3E');
+  height: 24px;
+  width: 19px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin: 2px 5px 0 0;
+}
+
+.call-to-subscribe {
+  font-family: Xilosa;
+  font-size: 1.2em;
+  margin: auto;
+  padding: 0 20px;
+  line-height: 40px;
+  height: 40px;
+}
+
+.algemas-quebradas .compartilhar, .algemas-quebradas .call-to-subscribe, .algemas-quebradas .tag-list li {
+  background-color: #E31E25;
+}
+
+.culto-ice-nova-russas .compartilhar, .culto-ice-nova-russas .call-to-subscribe {
+  background-color: #64288A;
+}
+
+.empreendedores-de-futuro .compartilhar, .empreendedores-de-futuro .call-to-subscribe {
+  background-color: #0125F7;
+}
+
+.familia-bencao-de-deus .compartilhar, .familia-bencao-de-deus .call-to-subscribe {
+  background-color: #00C8FF;
+}
+
+.jornal-seara .compartilhar, .jornal-seara .call-to-subscribe {
+  background-color: #224752;
+}
+
+.luz-da-vida .compartilhar, .luz-da-vida .call-to-subscribe {
+  background-color: #FFF59C;
+}
+
+.minha-historia .compartilhar, .minha-historia .call-to-subscribe {
+  background-color: #4CA524;
+}
+
+.seara-esporte-clube .compartilhar, .seara-esporte-clube .call-to-subscribe {
+  background-color: #EA5F21;
+}
+
+.uma-vida-a-dois .compartilhar, .uma-vida-a-dois .call-to-subscribe {
+  background-color: #E60A80;
 }
 
 footer {

@@ -37,10 +37,9 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: index, on: context.site),
             .body(
                 .header(for: context, currentPagePath: index.path),
-                .banner("green",  .div( .class("info"),
+                .banner("green",  .bannerInfo(
                                         .h1(.text(index.title)),
-                                        .p(
-                                            .class("description"),
+                                        .p(.class("description"),
                                             .text(context.site.description)
                     )
                     ),
@@ -53,7 +52,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                                 )
                         )}
                 ),
-                .div( .class("wrapper home"),
+                .wrapper("home",
                     .h2("Programas"),
                     .sectionList(for: context.sections)
                     //                    .sectionList
@@ -69,11 +68,23 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         HTML(
             .lang(context.site.language),
             .head(for: section, on: context.site),
-            .body(
+            .body(.class(section.id.rawValue),
                 .header(for: context, currentPagePath: nil),
-                .wrapper(
-                    .h1(.text(section.title)),
-                    .itemList(for: section.items, on: context.site)
+                .banner("orange", .bannerInfo(
+                        .h1(.text(section.title)),
+                        .p(.class("description"),
+                           .text(section.description)
+                    ),
+                        .shareButton()
+                        ),
+                .unwrap(section.imagePath){.div(.class("banner-artwork"),
+                    .img(.src($0))
+                    )}
+                    ),
+                .wrapper("episodios",
+                    .h2(.text("Episódios")),
+                    .itemList(for: section.items, on: context.site),
+                    .button(.class("call-to-subscribe"), .text("Inscreva-se no Podcast"))
                 ),
                 .footer(for: context.site)
             )
@@ -88,7 +99,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .body(
                 .class("item-page"),
                 .header(for: context, currentPagePath: nil),
-                .wrapper(
+                .wrapper("",
                     .article(
                         .div(
                             .class("content"),
@@ -115,7 +126,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site)   ,
             .body(
                 .header(for: context, currentPagePath: page.path),
-                .wrapper(.contentBody(page.body)),
+                .wrapper("",.contentBody(page.body)),
                 .footer(for: context.site)
             )
         )
@@ -130,7 +141,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site),
             .body(
                 .header(for: context, currentPagePath: page.path),
-                .wrapper(.unwrap(page.audio, { .searaPlayer(for: $0, artworkSrc: Path("/recursos/missingArtwork.jpg")) }),
+                .wrapper("", .unwrap(page.audio, { .searaPlayer(for: $0, artworkSrc: Path("/recursos/missingArtwork.jpg")) }),
                          .contentBody(page.body)),
                 .footer(for: context.site),
                 .script(.src("/playerScript.js"))
@@ -145,7 +156,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site),
             .body(
                 .header(for: context, currentPagePath: nil),
-                .wrapper(
+                .wrapper("",
                     .h1("Browse all tags"),
                     .ul(
                         .class("all-tags"),
@@ -172,7 +183,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site),
             .body(
                 .header(for: context, currentPagePath: nil),
-                .wrapper(
+                .wrapper("",
                     .h1(
                         "Tagged with ",
                         .span(.class("tag"), .text(page.tag.string))
@@ -199,12 +210,16 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
 
 
 private extension Node where Context == HTML.BodyContext {
-    static func wrapper(_ nodes: Node...) -> Node {
-        .div(.class("wrapper"), .group(nodes))
+    static func wrapper(_ extraClasses: String, _ nodes: Node...) -> Node {
+        .div(.class("wrapper \(extraClasses)"), .group(nodes))
     }
     
     static func banner(_ colorClass: String,_ nodes: Node...) -> Node {
         .div(.class("banner \(colorClass)"), .group(nodes))
+    }
+
+    static func bannerInfo(_ nodes: Node...) -> Node {
+        .div(.class("info"), .group(nodes))
     }
     
     static func header<T: Website>(
@@ -234,17 +249,38 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func itemList<T: Website>(for items: [Item<T>], on site: T) -> Node {
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "d' de 'MMM, yyyy"
+        
+        func formatDuration(duration:Audio.Duration) -> String{
+            
+            
+            let totalMinutes = duration.hours*60 + duration.minutes + (duration.seconds>0 ? Int(1) : Int(0))
+            return " | \(totalMinutes) min"
+        }
+        
         return .ul(
             .class("item-list"),
             .forEach(items) { item in
-                .li(.article(
-                    .h1(.a(
-                        .href(item.path),
-                        .text(item.title)
-                        )),
-                    .tagList(for: item, on: site),
-                    .p(.text(item.description))
-                    ))
+                .unwrap(item.audio) {
+                    .li(.article(
+                        .button(.class("play")),
+                        .div(.class("info"),
+                             .h3(.a(
+                                .href(item.path),
+                                .text(item.title)
+                                )),
+                             .unwrap($0.duration){
+                                .p(.class("date-time"), .text("\(dateFormatter.string(from:item.date))\(formatDuration(duration: $0))" ))},
+                             .p(.class("description"), .text(item.description)),
+                             .tagList(for: item, on: site)
+                        ),
+                        .shareButton()
+                        )
+                    )
+                }
+                
             }
         )
     }
@@ -259,7 +295,7 @@ private extension Node where Context == HTML.BodyContext {
                         .div(.class("artwork-wrapper"),
                              .img(.src($0)),
                              .div(.class("tint"),
-                                     .div(.class("play-overlay"))
+                                     .div(.class("play overlay"))
                             )
                         )},
                        .h3(
@@ -280,6 +316,13 @@ private extension Node where Context == HTML.BodyContext {
                 .text(tag.string)
                 ))
             })
+    }
+    
+    static func shareButton() -> Node {
+        return .button(.class("compartilhar"),
+                       .div(.class("icon")),
+                       .text("Compartilhar")
+        )
     }
     
     static func footer<T: Website>(for site: T) -> Node {

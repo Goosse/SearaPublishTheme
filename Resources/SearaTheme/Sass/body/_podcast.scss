@@ -42,10 +42,10 @@
     
     .tag-list{
         display:flex;
-        li{
+        li a{
             margin-right:10px;
             color:#fff;
-            padding: 0 10px;
+            padding: 3px 12px;
             height:25px;
             line-height: 25px;
             border-radius: 12.5px;
@@ -93,55 +93,55 @@
 //Special coloring for each podcast page
 
 .algemas-quebradas{
-    .compartilhar,.call-to-subscribe, .tag-list li{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$algemas-red;
     }     
 }
 
 .culto-ice-nova-russas{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$culto-purple;
     }     
 }
 
 .empreendedores-de-futuro{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$empreendedores-blue;
     }     
 }
 
 .familia-bencao-de-deus{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$familia-blue;
     }     
 }
 
 .jornal-seara{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$jornal-dark-blue;
     }     
 }
 
 .luz-da-vida{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$luz-da-vida-yellow;
     }     
 }
 
 .minha-historia{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$minha-historia-green;
     }     
 }
 
 .seara-esporte-clube{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$esporte-orange;
     }     
 }
 
 .uma-vida-a-dois{
-    .compartilhar,.call-to-subscribe{
+    .compartilhar,.call-to-subscribe, .tag-list li a{
         background-color: variables.$vida-a-dois-pink;
     }     
 }

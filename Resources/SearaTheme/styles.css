@@ -228,10 +228,10 @@ p.programa-no-ar {
 .episodios .tag-list {
   display: flex;
 }
-.episodios .tag-list li {
+.episodios .tag-list li a {
   margin-right: 10px;
   color: #fff;
-  padding: 0 10px;
+  padding: 3px 12px;
   height: 25px;
   line-height: 25px;
   border-radius: 12.5px;
@@ -272,39 +272,39 @@ p.programa-no-ar {
   height: 40px;
 }
 
-.algemas-quebradas .compartilhar, .algemas-quebradas .call-to-subscribe, .algemas-quebradas .tag-list li {
+.algemas-quebradas .compartilhar, .algemas-quebradas .call-to-subscribe, .algemas-quebradas .tag-list li a {
   background-color: #E31E25;
 }
 
-.culto-ice-nova-russas .compartilhar, .culto-ice-nova-russas .call-to-subscribe {
+.culto-ice-nova-russas .compartilhar, .culto-ice-nova-russas .call-to-subscribe, .culto-ice-nova-russas .tag-list li a {
   background-color: #64288A;
 }
 
-.empreendedores-de-futuro .compartilhar, .empreendedores-de-futuro .call-to-subscribe {
+.empreendedores-de-futuro .compartilhar, .empreendedores-de-futuro .call-to-subscribe, .empreendedores-de-futuro .tag-list li a {
   background-color: #0125F7;
 }
 
-.familia-bencao-de-deus .compartilhar, .familia-bencao-de-deus .call-to-subscribe {
+.familia-bencao-de-deus .compartilhar, .familia-bencao-de-deus .call-to-subscribe, .familia-bencao-de-deus .tag-list li a {
   background-color: #00C8FF;
 }
 
-.jornal-seara .compartilhar, .jornal-seara .call-to-subscribe {
+.jornal-seara .compartilhar, .jornal-seara .call-to-subscribe, .jornal-seara .tag-list li a {
   background-color: #224752;
 }
 
-.luz-da-vida .compartilhar, .luz-da-vida .call-to-subscribe {
+.luz-da-vida .compartilhar, .luz-da-vida .call-to-subscribe, .luz-da-vida .tag-list li a {
   background-color: #FFF59C;
 }
 
-.minha-historia .compartilhar, .minha-historia .call-to-subscribe {
+.minha-historia .compartilhar, .minha-historia .call-to-subscribe, .minha-historia .tag-list li a {
   background-color: #4CA524;
 }
 
-.seara-esporte-clube .compartilhar, .seara-esporte-clube .call-to-subscribe {
+.seara-esporte-clube .compartilhar, .seara-esporte-clube .call-to-subscribe, .seara-esporte-clube .tag-list li a {
   background-color: #EA5F21;
 }
 
-.uma-vida-a-dois .compartilhar, .uma-vida-a-dois .call-to-subscribe {
+.uma-vida-a-dois .compartilhar, .uma-vida-a-dois .call-to-subscribe, .uma-vida-a-dois .tag-list li a {
   background-color: #E60A80;
 }
 

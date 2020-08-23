@@ -151,6 +151,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
     
     func makeTagListHTML(for page: TagListPage,
                          context: PublishingContext<Site>) throws -> HTML? {
+        
         HTML(
             .lang(context.site.language),
             .head(for: page, on: context.site),
@@ -183,16 +184,12 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site),
             .body(
                 .header(for: context, currentPagePath: nil),
-                .wrapper("",
-                    .h1(
-                        "Tagged with ",
-                        .span(.class("tag"), .text(page.tag.string))
+                .banner("orange", .bannerInfo(
+                        .h1("Palavra Chave: \"", .text(page.tag.string), "\""),
+                        .shareButton()
+                        )
                     ),
-                    .a(
-                        .class("browse-all"),
-                        .text("Browse all tags"),
-                        .href(context.site.tagListPath)
-                    ),
+                .wrapper("episodios",
                     .itemList(
                         for: context.items(
                             taggedWith: page.tag,
@@ -200,6 +197,11 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             order: .descending
                         ),
                         on: context.site
+                    ),
+                    .a(
+                        .class("call-to-subscribe"),
+                        .text("Veja Todas as Palavras Chaves"),
+                        .href(context.site.tagListPath)
                     )
                 ),
                 .footer(for: context.site)

@@ -5,6 +5,7 @@
     display:flex;
     flex-direction: column;
 }
+
 .episodios{
     article{
         padding: 10px 50px;
@@ -42,14 +43,6 @@
     
     .tag-list{
         display:flex;
-        li a{
-            margin-right:10px;
-            color:#fff;
-            padding: 3px 12px;
-            height:25px;
-            line-height: 25px;
-            border-radius: 12.5px;
-        }
     }
     
     .compartilhar{
@@ -57,7 +50,18 @@
     }
 }
 
-.compartilhar, .call-to-subscribe{
+.tag{
+    margin-right:10px;
+    color:#fff;
+    padding: 3px 12px;
+  //  height: 25px;
+    line-height: 1.5em;
+    border-radius: 12.5px;
+    background-color: variables.$green;
+    text-transform: capitalize;
+}
+
+.compartilhar, .call-to-action{
     cursor: pointer;
     color: #fff;
     border: none;
@@ -80,7 +84,7 @@
         }
 }
 
-.call-to-subscribe{
+.call-to-action{
     font-family: Xilosa;
     font-size: 1.2em;
     margin: auto;
@@ -93,55 +97,56 @@
 //Special coloring for each podcast page
 
 .algemas-quebradas{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$algemas-red;
     }     
 }
 
+
 .culto-ice-nova-russas{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$culto-purple;
     }     
 }
 
 .empreendedores-de-futuro{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$empreendedores-blue;
     }     
 }
 
 .familia-bencao-de-deus{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$familia-blue;
     }     
 }
 
 .jornal-seara{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$jornal-dark-blue;
     }     
 }
 
 .luz-da-vida{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$luz-da-vida-yellow;
     }     
 }
 
 .minha-historia{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$minha-historia-green;
     }     
 }
 
 .seara-esporte-clube{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$esporte-orange;
     }     
 }
 
 .uma-vida-a-dois{
-    .compartilhar,.call-to-subscribe, .tag-list li a{
+    .compartilhar,.call-to-action, .tag{
         background-color: variables.$vida-a-dois-pink;
     }     
 }

@@ -84,7 +84,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                 .wrapper("episodios",
                     .h2(.text("Episódios")),
                     .itemList(for: section.items, on: context.site),
-                    .button(.class("call-to-subscribe"), .text("Inscreva-se no Podcast"))
+                    .button(.class("call-to-action"), .text("Inscreva-se no Podcast"))
                 ),
                 .footer(for: context.site)
             )
@@ -96,18 +96,22 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         HTML(
             .lang(context.site.language),
             .head(for: item, on: context.site),
-            .body(
-                .class("item-page"),
+            .body(.class("item-page \(item.sectionID.rawValue)"),
                 .header(for: context, currentPagePath: nil),
-                .wrapper("",
-                    .article(
-                        .div(
-                            .class("content"),
-                            .contentBody(item.body)
-                        ),
-                        .span("Tagged with: "),
-                        .tagList(for: item, on: context.site)
-                    )
+                .banner("orange", .bannerInfo(
+                                       .h1(.text(item.title)),
+                                       .h2("de \(context.sections[item.sectionID].title)"),
+                                       .p(.class("description"),
+                                          .text(context.sections[item.sectionID].description)
+                                   )
+                                       ),
+                        .unwrap(context.sections[item.sectionID].imagePath){.div(.class("banner-artwork"),
+                                   .img(.src($0))
+                                   )}
+                                   ),
+                .wrapper("episodios",
+                    .itemList(for: [item], on: context.site),
+                    .a(.class("call-to-action"), .href(context.sections[item.sectionID].path), .text("Veja Todos"))
                 ),
                 .footer(for: context.site)
             )
@@ -185,7 +189,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .body(
                 .header(for: context, currentPagePath: nil),
                 .banner("orange", .bannerInfo(
-                        .h1("Palavra Chave: \"", .text(page.tag.string), "\""),
+                    .h1("Palavra Chave: ", .span(.class("tag"),.text(page.tag.string))),
                         .shareButton()
                         )
                     ),
@@ -199,7 +203,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                         on: context.site
                     ),
                     .a(
-                        .class("call-to-subscribe"),
+                        .class("call-to-action"),
                         .text("Veja Todas as Palavras Chaves"),
                         .href(context.site.tagListPath)
                     )
@@ -313,7 +317,7 @@ private extension Node where Context == HTML.BodyContext {
     
     static func tagList<T: Website>(for item: Item<T>, on site: T) -> Node {
         return .ul(.class("tag-list"), .forEach(item.tags) { tag in
-            .li(.a(
+            .li(.a(.class("tag"),
                 .href(site.path(for: tag)),
                 .text(tag.string)
                 ))

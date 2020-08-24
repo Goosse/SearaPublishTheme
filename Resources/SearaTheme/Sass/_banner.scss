@@ -26,6 +26,12 @@
 	.description{
 		max-width: 345px;
 	}
+    
+    .tag{
+    display: inline-block;
+    font-family: "Open Sans";
+}
+
 
 }
 
@@ -53,4 +59,22 @@ p.no-ar{
 
 p.programa-no-ar{
 	font-size: 0.8em;
+}
+
+.item-page{
+    .banner{
+        .info{
+            h1, h2{
+                margin: 10px 0;
+            }
+            
+            h2{
+               font-size: 1em;
+                color: #fff;
+                text-align: right;
+                font-family: "Open Sans";
+                text-transform: none;
+            }
+        }
+    }
 }

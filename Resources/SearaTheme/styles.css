@@ -95,6 +95,10 @@ ul {
 .banner .description {
   max-width: 345px;
 }
+.banner .tag {
+  display: inline-block;
+  font-family: "Open Sans";
+}
 
 .banner-artwork {
   align-self: center;
@@ -117,6 +121,17 @@ p.no-ar {
 
 p.programa-no-ar {
   font-size: 0.8em;
+}
+
+.item-page .banner .info h1, .item-page .banner .info h2 {
+  margin: 10px 0;
+}
+.item-page .banner .info h2 {
+  font-size: 1em;
+  color: #fff;
+  text-align: right;
+  font-family: "Open Sans";
+  text-transform: none;
 }
 
 .play {
@@ -228,19 +243,21 @@ p.programa-no-ar {
 .episodios .tag-list {
   display: flex;
 }
-.episodios .tag-list li a {
-  margin-right: 10px;
-  color: #fff;
-  padding: 3px 12px;
-  height: 25px;
-  line-height: 25px;
-  border-radius: 12.5px;
-}
 .episodios .compartilhar {
   margin: auto 0 auto auto;
 }
 
-.compartilhar, .call-to-subscribe {
+.tag {
+  margin-right: 10px;
+  color: #fff;
+  padding: 3px 12px;
+  line-height: 1.5em;
+  border-radius: 12.5px;
+  background-color: #007985;
+  text-transform: capitalize;
+}
+
+.compartilhar, .call-to-action {
   cursor: pointer;
   color: #fff;
   border: none;
@@ -263,7 +280,7 @@ p.programa-no-ar {
   margin: 2px 5px 0 0;
 }
 
-.call-to-subscribe {
+.call-to-action {
   font-family: Xilosa;
   font-size: 1.2em;
   margin: auto;
@@ -272,39 +289,39 @@ p.programa-no-ar {
   height: 40px;
 }
 
-.algemas-quebradas .compartilhar, .algemas-quebradas .call-to-subscribe, .algemas-quebradas .tag-list li a {
+.algemas-quebradas .compartilhar, .algemas-quebradas .call-to-action, .algemas-quebradas .tag {
   background-color: #E31E25;
 }
 
-.culto-ice-nova-russas .compartilhar, .culto-ice-nova-russas .call-to-subscribe, .culto-ice-nova-russas .tag-list li a {
+.culto-ice-nova-russas .compartilhar, .culto-ice-nova-russas .call-to-action, .culto-ice-nova-russas .tag {
   background-color: #64288A;
 }
 
-.empreendedores-de-futuro .compartilhar, .empreendedores-de-futuro .call-to-subscribe, .empreendedores-de-futuro .tag-list li a {
+.empreendedores-de-futuro .compartilhar, .empreendedores-de-futuro .call-to-action, .empreendedores-de-futuro .tag {
   background-color: #0125F7;
 }
 
-.familia-bencao-de-deus .compartilhar, .familia-bencao-de-deus .call-to-subscribe, .familia-bencao-de-deus .tag-list li a {
+.familia-bencao-de-deus .compartilhar, .familia-bencao-de-deus .call-to-action, .familia-bencao-de-deus .tag {
   background-color: #00C8FF;
 }
 
-.jornal-seara .compartilhar, .jornal-seara .call-to-subscribe, .jornal-seara .tag-list li a {
+.jornal-seara .compartilhar, .jornal-seara .call-to-action, .jornal-seara .tag {
   background-color: #224752;
 }
 
-.luz-da-vida .compartilhar, .luz-da-vida .call-to-subscribe, .luz-da-vida .tag-list li a {
+.luz-da-vida .compartilhar, .luz-da-vida .call-to-action, .luz-da-vida .tag {
   background-color: #FFF59C;
 }
 
-.minha-historia .compartilhar, .minha-historia .call-to-subscribe, .minha-historia .tag-list li a {
+.minha-historia .compartilhar, .minha-historia .call-to-action, .minha-historia .tag {
   background-color: #4CA524;
 }
 
-.seara-esporte-clube .compartilhar, .seara-esporte-clube .call-to-subscribe, .seara-esporte-clube .tag-list li a {
+.seara-esporte-clube .compartilhar, .seara-esporte-clube .call-to-action, .seara-esporte-clube .tag {
   background-color: #EA5F21;
 }
 
-.uma-vida-a-dois .compartilhar, .uma-vida-a-dois .call-to-subscribe, .uma-vida-a-dois .tag-list li a {
+.uma-vida-a-dois .compartilhar, .uma-vida-a-dois .call-to-action, .uma-vida-a-dois .tag {
   background-color: #E60A80;
 }
 

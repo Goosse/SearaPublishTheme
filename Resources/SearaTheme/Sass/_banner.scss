@@ -1,8 +1,8 @@
 @use 'variables';
 
 .banner{
-	height: 220px;
-	padding:0 variables.$side-margins*2 0 variables.$side-margins;
+	min-height: 220px;
+	padding:0 variables.$side-margins*2 20px variables.$side-margins;
 	color: white;
 	display: flex;
 	justify-content: space-between;
@@ -24,7 +24,8 @@
 		align-self: center;
 	}
 	.description{
-		max-width: 345px;
+        text-align: justify;
+        margin-right: 20px;
 	}
     
     .tag{
@@ -39,6 +40,7 @@
 	align-self: center;
 	text-align: center;
 	width: 125px;
+    min-width: 125px;
 	
 	p{
 		margin:0;

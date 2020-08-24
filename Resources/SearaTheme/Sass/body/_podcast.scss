@@ -80,7 +80,7 @@
 .compartilhar{
     display:flex;
         .icon{
-             background-image: variables.inline-svg(variables.$svg-compartilhar);
+            background-image: variables.inline-svg(variables.svg-compartilhar(fff));
             height: 24px;
             width: 19px;
             background-repeat: no-repeat;
@@ -135,7 +135,11 @@
 .luz-da-vida{
     .compartilhar,.call-to-action, .tag{
         background-color: variables.$luz-da-vida-yellow;
+        color:#000;
     }     
+    .icon{
+         background-image: variables.inline-svg(variables.svg-compartilhar('000'));
+    }
 }
 
 .minha-historia{

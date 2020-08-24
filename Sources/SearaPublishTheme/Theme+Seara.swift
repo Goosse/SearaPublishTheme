@@ -161,8 +161,11 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: page, on: context.site),
             .body(
                 .header(for: context, currentPagePath: nil),
+                .banner("orange", .bannerInfo(
+                    .h1("Todas as Palavras Chaves")
+                    )
+                ),
                 .wrapper("",
-                         .h1("Browse all tags"),
                          .ul(
                             .class("all-tags"),
                             .forEach(page.tags.sorted()) { tag in

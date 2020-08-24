@@ -148,6 +148,10 @@ p.programa-no-ar {
   border-width: 12px 0 12px 20px;
 }
 
+.wrapper {
+  padding: 0 10%;
+}
+
 .wrapper.home {
   padding: 0 20%;
 }
@@ -206,7 +210,6 @@ p.programa-no-ar {
 }
 
 .wrapper.episodios {
-  padding: 0 10%;
   display: flex;
   flex-direction: column;
 }
@@ -255,6 +258,11 @@ p.programa-no-ar {
   border-radius: 12.5px;
   background-color: #007985;
   text-transform: capitalize;
+}
+
+.all-tags .tag {
+  display: inline-block;
+  margin-bottom: 10px;
 }
 
 .compartilhar, .call-to-action {

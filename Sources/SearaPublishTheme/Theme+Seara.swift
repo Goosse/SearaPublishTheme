@@ -97,23 +97,23 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: item, on: context.site),
             .body(.class("item-page \(item.sectionID.rawValue)"),
-                .header(for: context, currentPagePath: nil),
-                .banner("orange", .bannerInfo(
-                                       .h1(.text(item.title)),
-                                       .h2("de \(context.sections[item.sectionID].title)"),
-                                       .p(.class("description"),
-                                          .text(context.sections[item.sectionID].description)
-                                   )
-                                       ),
-                        .unwrap(context.sections[item.sectionID].imagePath){.div(.class("banner-artwork"),
-                                   .img(.src($0))
-                                   )}
-                                   ),
-                .wrapper("episodios",
-                    .itemList(for: [item], on: context.site),
-                    .a(.class("call-to-action"), .href(context.sections[item.sectionID].path), .text("Veja Todos"))
+                  .header(for: context, currentPagePath: nil),
+                  .banner("orange", .bannerInfo(
+                    .h1(.text(item.title)),
+                    .h2("de \(context.sections[item.sectionID].title)"),
+                    .p(.class("description"),
+                       .text(context.sections[item.sectionID].description)
+                    )
+                    ),
+                          .unwrap(context.sections[item.sectionID].imagePath){.div(.class("banner-artwork"),
+                                                                                   .img(.src($0))
+                            )}
                 ),
-                .footer(for: context.site)
+                  .wrapper("episodios",
+                           .itemList(for: [item], on: context.site, withLink: false),
+                           .a(.class("call-to-action"), .href(context.sections[item.sectionID].path), .text("Veja Todos"))
+                ),
+                  .footer(for: context.site)
             )
         )
     }
@@ -162,18 +162,18 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .body(
                 .header(for: context, currentPagePath: nil),
                 .wrapper("",
-                    .h1("Browse all tags"),
-                    .ul(
-                        .class("all-tags"),
-                        .forEach(page.tags.sorted()) { tag in
-                            .li(
-                                .class("tag"),
-                                .a(
-                                    .href(context.site.path(for: tag)),
-                                    .text(tag.string)
+                         .h1("Browse all tags"),
+                         .ul(
+                            .class("all-tags"),
+                            .forEach(page.tags.sorted()) { tag in
+                                .li(
+                                    .class("tag"),
+                                    .a(
+                                        .href(context.site.path(for: tag)),
+                                        .text(tag.string)
+                                    )
                                 )
-                            )
-                        }
+                            }
                     )
                 ),
                 .footer(for: context.site)
@@ -190,14 +190,14 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                 .header(for: context, currentPagePath: nil),
                 .banner("orange", .bannerInfo(
                     .h1("Palavra Chave: ", .span(.class("tag"),.text(page.tag.string))),
-                        .shareButton()
-                        )
-                    ),
+                    .shareButton()
+                    )
+                ),
                 .wrapper("episodios",
-                    .itemList(
-                        for: context.items(
-                            taggedWith: page.tag,
-                            sortedBy: \.date,
+                         .itemList(
+                            for: context.items(
+                                taggedWith: page.tag,
+                                sortedBy: \.date,
                             order: .descending
                         ),
                         on: context.site
@@ -255,6 +255,10 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func itemList<T: Website>(for items: [Item<T>], on site: T) -> Node {
+        return .itemList(for: items, on: site, withLink: true)
+    }
+    
+    static func itemList<T: Website>(for items: [Item<T>], on site: T, withLink:Bool) -> Node {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d' de 'MMM, yyyy"
@@ -273,10 +277,13 @@ private extension Node where Context == HTML.BodyContext {
                     .li(.article(
                         .button(.class("play")),
                         .div(.class("info"),
-                             .h3(.a(
+                             .h3(.if(withLink,
+                                .a(
                                 .href(item.path),
                                 .text(item.title)
-                                )),
+                                ),
+                                else: .text(item.title))
+                            ),
                              .unwrap($0.duration){
                                 .p(.class("date-time"), .text("\(dateFormatter.string(from:item.date))\(formatDuration(duration: $0))" ))},
                              .p(.class("description"), .text(item.description)),

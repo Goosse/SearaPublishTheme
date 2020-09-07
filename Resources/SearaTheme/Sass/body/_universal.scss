@@ -3,17 +3,42 @@
 .play{
     width: 50px;
     height: 50px;
-    border-radius: 100%;
+    border-radius: 50%;
     box-sizing: border-box;
+    display:flex;
 		&:after {
 				content: "";
 				display: inline-block;
-                margin: 13px 17px;
+               // margin: 8% 0 0px 10%;
+                margin: auto;
+                margin-left: 35%;
 				border-style: solid;
 				border-width: 12px 0 12px 20px;
 			}
 }
 
-.wrapper{
-    	padding:0 variables.$side-margins;
+.episodios .play, .ao-vivo .play{
+        cursor: pointer;
+        padding: 0;
+        background-color: #fff;
+        border:solid 1px;
+        border-color: variables.$light-gray;
+        margin: auto 0;
+        &:after {
+				border-color: transparent transparent transparent variables.$gray;
+			}
+    }
+
+.divider{
+    height: 100%;
+    border-left: solid 1px variables.$light-gray;
+}
+
+button, .button{
+        padding: 0;
+        background-color: #fff;
+     .label{
+         text-align: center;
+         flex-grow: 1;
+    }
 }

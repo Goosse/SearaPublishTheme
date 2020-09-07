@@ -9,6 +9,7 @@ import Publish
 import Files
 import Foundation
 
+
 public extension Theme {
     
     ///  Custom theme for radioseara.fm
@@ -69,24 +70,25 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .lang(context.site.language),
             .head(for: section, on: context.site),
             .body(.class(section.id.rawValue),
-                .header(for: context, currentPagePath: nil),
-                .banner("orange", .bannerInfo(
-                        .h1(.text(section.title)),
-                        .p(.class("description"),
-                           .text(section.description)
+                  .header(for: context, currentPagePath: nil),
+                  .banner("orange", .bannerInfo(
+                    .h1(.text(section.title)),
+                    .p(.class("description"),
+                       .text(section.description)
                     ),
-                        .shareButton()
-                        ),
-                .unwrap(section.imagePath){.div(.class("banner-artwork"),
-                    .img(.src($0))
-                    )}
+                    .shareButton()
                     ),
-                .wrapper("episodios",
-                    .h2(.text("Episódios")),
-                    .itemList(for: section.items, on: context.site),
-                    .button(.class("call-to-action"), .text("Inscreva-se no Podcast"))
+                          .unwrap(section.imagePath){.div(.class("banner-artwork"),
+                                                          .img(.src($0))
+                            )}
                 ),
-                .footer(for: context.site)
+                  .wrapper("episodios",
+                           .h2(.text("Episódios")),
+                           .itemList(for: section.items, on: context.site),
+                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"))
+                ),
+                  .footer(for: context.site),
+                  .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path)
             )
         )
     }
@@ -98,12 +100,13 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .head(for: item, on: context.site),
             .body(.class("item-page \(item.sectionID.rawValue)"),
                   .header(for: context, currentPagePath: nil),
-                  .banner("orange", .bannerInfo(
-                    .h1(.text(item.title)),
-                    .h2("de \(context.sections[item.sectionID].title)"),
-                    .p(.class("description"),
-                       .text(context.sections[item.sectionID].description)
-                    )
+                  .banner("orange",
+                          .bannerInfo(
+                            .h1(.text(item.title)),
+                            .h2("de \(context.sections[item.sectionID].title)"),
+                            .p(.class("description"),
+                               .text(context.sections[item.sectionID].description)
+                            )
                     ),
                           .unwrap(context.sections[item.sectionID].imagePath){.div(.class("banner-artwork"),
                                                                                    .img(.src($0))
@@ -143,12 +146,60 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         return HTML(
             .lang(context.site.language),
             .head(for: page, on: context.site),
-            .body(
-                .header(for: context, currentPagePath: page.path),
-                .wrapper("", .unwrap(page.audio, { .searaPlayer(for: $0, artworkSrc: Path("/recursos/missingArtwork.jpg")) }),
-                         .contentBody(page.body)),
-                .footer(for: context.site),
-                .script(.src("/playerScript.js"))
+            .body(.class("live-player"),
+                  .header(for: context, currentPagePath: page.path),
+                  .wrapper("ao-vivo",
+                           .wrapper("player",
+                                    .wrapper("col-1",
+                                             .img(.id("live-artwork"),
+                                                  .src("/recursos/capas/ao-vivo.jpg")
+                                        )
+                            ),
+                                    .wrapper("col-2",
+                                             .h1(.id("live-track-title"), "Song Title"),
+                                             .p(.id("start-time"), "Começou às 16:00"),
+                                             .div(.class("button-wrapper"),
+                                                  .shareButton(),
+                                                  .a(.class("comprar-link button"),.href("/"),
+                                                     .span(.class("icon")),  .span(.class("label"), "Comprar"))
+                                        )
+                            ),
+                                    .wrapper("col-3",
+                                             .h2(.class("track-info-title"), "Informações"),
+                                             .p(.id("track-info"), "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium, totam rem aperia."),
+                                             .div(.class("button-wrapper"),
+                                                  .button(.class("curtir button"),
+                                                          .div(.class("icon")),
+                                                          .span(.class("label"), "Curtir")
+                                                ),
+                                                  .button(.class("ver-letra button"),
+                                                          .div(.class("icon")),
+                                                          .span(.class("label"), "Ver a letra")
+                                                )
+                                        )
+                            ),
+                                    .wrapper("col-4",
+                                             .span(.class("divider")),
+                                             .button(.class("play")),
+                                             .div(.id("volume"),
+                                                  .div(.id("volume-slider"),
+                                                       .div(.id("volume-active-range")),
+                                                       .div(.id("volume-handle"))
+                                                ),
+                                                  .div(.class("icon"))
+                                        ),
+                                             .unwrap(page.audio, {
+                                                .audio(.id("player"),
+                                                .controls(false),
+                                                .source(.type($0.format), .src($0.url))
+                                                )
+                                             })
+                                        
+                            )
+                    )
+                ),
+                  .footer(for: context.site),
+                  .script(.src("/playerScript.js"))
             )
         )
     }
@@ -229,6 +280,31 @@ private extension Node where Context == HTML.BodyContext {
 
     static func bannerInfo(_ nodes: Node...) -> Node {
         .div(.class("info"), .group(nodes))
+    }
+    
+    static func compartilharDialog(_ title: String, imgUrl:Path?, shareUrl: Path) -> Node {
+        .div(.class("compartilhar-modal"),
+             .div(.class("compartilhar-dialog"),
+                  .unwrap(imgUrl){.img(.class("album-artwork"),
+                                       .src($0.absoluteString)
+                    )},
+                  .p(.text(title)),
+                  .ul(.class("share-icons"),
+                      .li(
+                        .facebookSVG("")
+                    ),
+                      .li(
+                        .instagramSVG("")
+                    ),
+                      .li(
+                        .whatsAppSVG("")
+                    ),
+                      .li(
+                        .twitterSVG("")
+                    )
+                )
+            )
+        )
     }
     
     static func header<T: Website>(
@@ -337,7 +413,7 @@ private extension Node where Context == HTML.BodyContext {
     static func shareButton() -> Node {
         return .button(.class("compartilhar"),
                        .div(.class("icon")),
-                       .text("Compartilhar")
+                       .span(.class("label"), "Compartilhar")
         )
     }
     
@@ -394,18 +470,12 @@ private extension Node where Context == HTML.BodyContext {
     /// Add an audio player and it's supporting elements for the Seara Publish Theme within the current context.
     /// - Parameter audio: The audio to add a player for.
     /// - Parameter showControls: Whether playback controls should be shown to the user.
-    static func searaPlayer(for audio: Audio,
-                            artworkSrc: Path, //eg. missing artwork image.
-        showControls: Bool = true) -> Node {
-        return .div(.class("player"),
-                    .audio(
-                        .controls(showControls),
-                        .source(.type(audio.format), .src(audio.url))
-            ),
-                    .p("Artista: ", .span(.id("artist"))),
-                    .p("Música: ", .span(.id("title"))),
-                    .div(.img(.src(artworkSrc), .id("artwork"))),
-                    .pre(.id("lyrics"))
-        )
-    }
+//    static func searaPlayer(for audio: Audio,
+//                            artworkSrc: Path, //eg. missing artwork image.
+//        showControls: Bool = true) -> Node {
+//        return .audio(
+//                        .controls(showControls),
+//                        .source(.type(audio.format), .src(audio.url))
+//            )
+//    }
 }

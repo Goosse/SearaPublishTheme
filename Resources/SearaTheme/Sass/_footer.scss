@@ -3,12 +3,19 @@
 footer{
 	background-color: variables.$orange;
 	color:#fff;
-	margin-top: 50px;
+}
+
+.live-player footer{
+    background-color: variables.$green;
 }
 
 .footer-wrapper{
-	margin: 0 variables.$side-margins;
+	margin: 50px variables.$side-margins 0 variables.$side-margins;
 	padding: 30px 0 20px 0;
+}
+
+.live-player .footer-wrapper{
+    margin-top:0;
 }
 
 .social-wrapper{

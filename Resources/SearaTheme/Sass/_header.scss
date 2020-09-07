@@ -20,7 +20,8 @@ header{
 }
 
 .header-wrapper{
-		margin: 10px variables.$side-margins;
+		margin: 0 variables.$side-margins;
+        padding-top:10px;
 		justify-content: space-between;
 		display: flex;
 	}

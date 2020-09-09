@@ -1,31 +1,68 @@
 @use '../variables';
 
-.compartilhar-modal{
+.hidden{
+    //display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+.modal{
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100vh;
+    background-color: rgb(0,0,0,0.5);
+    transition: visibility 0s, opacity 0.2s linear;
 }
 
-.compartilhar-dialog{
-        width: 400px;
-        height: 350px;
-        margin: 15% auto;
-        background-color: #fff;
-        padding: 20px;
+.dialog{
+    font-family: Montserrat;
+    text-align: center;
+    width: 300px;
+    max-width: 80%;
+    margin: 25vh auto;
+    background-color: #fff;
+    padding: 20px;
+    position: relative;
+    box-shadow: 10px 4px 20px 0 rgba(0, 0, 0, 0.5);
+    border:solid 1px #B3B3B3;
+
+    .close{
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        border: solid 1px #000;
+        border-radius: 50%;
+        text-align: center;
+        font-size: 9px;
+        line-height: 15px;
+        width:20px;
+        height:20px;
+        cursor: pointer;
+
+        &:after{
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            margin: 5px auto;
+            background: linear-gradient(-45deg, transparent 0%, transparent 47%, black 47%, black 53%, transparent 53%, transparent 100%), linear-gradient(45deg, transparent 0%, transparent 47%, black 47%, black 53%, transparent 53%, transparent 100%);
+        }
+    }
+
     img{
-        width:35%;
+        width:50%;
         display:block;
         margin:auto;
     }
 }
 
-.share-icons{
+.share-icons, .inscrever-logos{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-gap: 20px;
-    
+    padding: 0 20px;
+
     li{
         width: 100%;
     }
@@ -39,49 +76,49 @@
 
 
 .culto-ice-nova-russas{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$culto-purple;
     }     
 }
 
 .empreendedores-de-futuro{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$empreendedores-blue;
     }     
 }
 
 .familia-bencao-de-deus{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$familia-blue;
     }     
 }
 
 .jornal-seara{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$jornal-dark-blue;
     }     
 }
 
 .luz-da-vida{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$luz-da-vida-yellow;
     }     
 }
 
 .minha-historia{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$minha-historia-green;
     }     
 }
 
 .seara-esporte-clube{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$esporte-orange;
     }     
 }
 
 .uma-vida-a-dois{
-     .share-icons path{
+    .share-icons path{
         fill: variables.$vida-a-dois-pink;
     }     
 }

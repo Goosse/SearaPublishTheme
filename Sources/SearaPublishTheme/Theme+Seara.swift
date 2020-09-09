@@ -88,7 +88,8 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                            .button(.class("call-to-action"), .text("Inscreva-se no Podcast"))
                 ),
                   .footer(for: context.site),
-                  .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path)
+                  .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
+                  .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site)
             )
         )
     }
@@ -282,29 +283,93 @@ private extension Node where Context == HTML.BodyContext {
         .div(.class("info"), .group(nodes))
     }
     
-    static func compartilharDialog(_ title: String, imgUrl:Path?, shareUrl: Path) -> Node {
-        .div(.class("compartilhar-modal"),
-             .div(.class("compartilhar-dialog"),
+    static func compartilharDialog<T: Website>(_ title: String, imgUrl:Path?, shareUrl: Path, on site: T) -> Node {
+        .div(.class("share modal hidden"),
+             .div(.class("share dialog"),
+                  .div(.class("close")),
                   .unwrap(imgUrl){.img(.class("album-artwork"),
                                        .src($0.absoluteString)
                     )},
-                  .p(.text(title)),
+                  .p(.text("Compartilhe \(title)")),
                   .ul(.class("share-icons"),
                       .li(
-                        .facebookSVG("")
+                        .a(
+                            .facebookSVG(""),
+                            .href("https://www.facebook.com/sharer/sharer.php?u=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
+                            .target(.blank)
+                            )
                     ),
                       .li(
-                        .instagramSVG("")
+                        .a(
+                            .whatsAppSVG(""),
+                            .href("https://api.whatsapp.com/send?text=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
+                            .target(.blank)
+                            )
                     ),
                       .li(
-                        .whatsAppSVG("")
-                    ),
+                        .a(
+                            .twitterSVG(""),
+                            .href("https://twitter.com/intent/tweet?url=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
+                            .target(.blank)
+                            )
+                    )
+                    ,
                       .li(
-                        .twitterSVG("")
+                        .a(
+                            .emailSVG(""),
+                            .href("mailto:?subject=Veja%20o%20que%20eu%20descrobi!&amp;body=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
+                            .target(.blank)
+                            )
                     )
                 )
             )
         )
+    }
+    
+     static func inscreverDialog<T: Website>(_ title: String, imgUrl:Path?, on site: T) -> Node {
+        .div(.class("inscrever modal hidden"),
+                    .div(.class("inscrever dialog"),
+                         .div(.class("close")),
+                         .unwrap(imgUrl){.img(.class("album-artwork"),
+                                              .src($0.absoluteString)
+                           )},
+                         .p(.text("Inscreva-se para sempre ouvir o"),
+                            .br(),
+                            .text(title)
+                        ),
+                         .ul(.class("inscrever-logos"),
+                             .li(
+                               .a(
+                                   .applePodcastsSVG(""),
+                                   .href("https://podcasts.apple.com"),
+                                   .target(.blank)
+                                   )
+                           ),
+                             .li(
+                               .a(
+                                   .spotifySVG(""),
+                                   .href("https://open.spotify.com/genre/podcasts-page"),
+                                   .target(.blank)
+                                   )
+                           ),
+                             .li(
+                               .a(
+                                   .googlePodcastsSVG(""),
+                                   .href("https://podcasts.google.com"),
+                                   .target(.blank)
+                                   )
+                           )
+                           ,
+                             .li(
+                               .a(
+                                   .tuneInSVG(""),
+                                   .href("https://tunein.com/podcasts/"),
+                                   .target(.blank)
+                                   )
+                           )
+                       )
+                   )
+               )
     }
     
     static func header<T: Website>(

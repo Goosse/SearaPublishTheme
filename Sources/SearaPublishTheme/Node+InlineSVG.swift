@@ -9,7 +9,7 @@ import Foundation
 import Plot
 import Publish
 
-public extension Node where Context == HTML.BodyContext {
+public extension Node where Context == HTML.AnchorContext {
 //    static func compartilharIcon(_ extraClasses: String) -> Node {
 //
 //       // .element(named: "svg", nodes: [.div(])
@@ -52,6 +52,104 @@ public extension Node where Context == HTML.BodyContext {
         .svgWrapper(extraClasses, viewBox: "0 0 400 400",
                     .element(named: "path", attributes: [
                         .attribute(named: "d", value: "M400 200c0 110.5-89.5 200-200 200S0 310.5 0 200 89.5 0 200 0s200 89.5 200 200zM163.4 305.5c88.7 0 137.2-73.5 137.2-137.2 0-2.1 0-4.2-.1-6.2 9.4-6.8 17.6-15.3 24.1-25-8.6 3.8-17.9 6.4-27.7 7.6 10-6 17.6-15.4 21.2-26.7-9.3 5.5-19.6 9.5-30.6 11.7-8.8-9.4-21.3-15.2-35.2-15.2-26.6 0-48.2 21.6-48.2 48.2 0 3.8.4 7.5 1.3 11-40.1-2-75.6-21.2-99.4-50.4-4.1 7.1-6.5 15.4-6.5 24.2 0 16.7 8.5 31.5 21.5 40.1-7.9-.2-15.3-2.4-21.8-6v.6c0 23.4 16.6 42.8 38.7 47.3-4 1.1-8.3 1.7-12.7 1.7-3.1 0-6.1-.3-9.1-.9 6.1 19.2 23.9 33.1 45 33.5-16.5 12.9-37.3 20.6-59.9 20.6-3.9 0-7.7-.2-11.5-.7 21.1 13.8 46.5 21.8 73.7 21.8")
+                    ])
+        )
+    }
+    
+    static func emailSVG(_ extraClasses: String) -> Node {
+        
+        .svgWrapper(extraClasses, viewBox: "0 0 400 400",
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M200 0a200 200 0 110 400 200 200 0 010-400zm120 131c0-6-5-10-11-10H91c-6 0-11 4-11 10v138c0 6 5 10 11 10h218c6 0 11-4 11-10V131zM90 144l70 44-63 69 7 7 65-70 31 20 31-20 65 70 7-7-63-69 70-44-6-8-104 66-104-66-6 8z")
+                    ])
+        )
+    }
+    
+    static func applePodcastsSVG(_ extraClasses: String) -> Node {
+        
+        .svgWrapper(extraClasses, viewBox: "0 0 400 400",
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M233 300H67c-37 0-67-30-67-67V67C0 30 30 0 67 0h166c37 0 67 30 67 67v166c0 37-30 67-67 67z"),
+                        .attribute(named: "fill", value: "url(#_Linear1)"),
+                        .attribute(named: "transform", value: "scale(1.33333)")
+                    ]),
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M182 347c-5-3-7-5-12-39-5-40-6-66-4-72 4-11 18-18 34-18 17 0 29 7 34 18 3 7-1 47-4 71-4 25-6 35-10 39-6 5-11 7-20 8-8 0-13-3-18-7zm62-32l2-15 2-4a122 122 0 10-96 0l2 3 2 16c0 2-1 3-3 2a141 141 0 1194 0s-4 1-3-2zm-94-53s0 2-3 1a95 95 0 11106 0c-2 1-3-1-3-1v-20a76 76 0 10-100 0v20zm50-122a33 33 0 110 66 33 33 0 010-66z"),
+                        .attribute(named: "fill", value: "#fff")
+                    ]),
+                    .element(named:"defs", nodes: [
+                        .element(named:"linearGradient", nodes: [
+                            .attribute(named: "id", value: "_Linear1"),
+                            .attribute(named: "x1", value: "0"),
+                            .attribute(named: "y1", value: "0"),
+                            .attribute(named: "x2", value: "1"),
+                            .attribute(named: "y2", value: "0"),
+                            .attribute(named: "gradientUnits", value: "userSpaceOnUse"),
+                            .attribute(named: "gradientTransform", value: "rotate(-90 225 78) scale(303.82)"),
+                            .element(named:"stop", attributes: [
+                                .attribute(named: "offset", value: "0"),
+                                .attribute(named: "stop-color", value: "#832bc1"),
+                            ]),
+                            .element(named:"stop", attributes: [
+                                .attribute(named: "offset", value: "1"),
+                                .attribute(named: "stop-color", value: "#d772fb"),
+                            ])
+                        ])
+                    ])
+            
+        )
+    }
+    
+    static func spotifySVG(_ extraClasses: String) -> Node {
+           
+           .svgWrapper(extraClasses, viewBox: "0 0 400 400",
+                       .element(named: "path", attributes: [
+                           .attribute(named: "d", value: "M318.3 177.3c-64.46-38.28-170.8-41.8-232.34-23.12a18.7 18.7 0 11-10.86-35.8c70.64-21.45 188.08-17.3 262.3 26.75a18.7 18.7 0 01-19.1 32.17zm-2.1 56.7a15.6 15.6 0 01-21.45 5.14c-53.75-33.03-135.7-42.6-199.3-23.3A15.61 15.61 0 0176 205.45 15.61 15.61 0 0186.4 186c72.63-22.04 162.93-11.36 224.67 26.57a15.6 15.6 0 015.13 21.44zm-24.48 54.47a12.46 12.46 0 01-17.14 4.15c-46.96-28.7-106.08-35.19-175.7-19.29a12.46 12.46 0 11-5.54-24.3c76.18-17.41 141.53-9.92 194.25 22.3a12.47 12.47 0 014.13 17.14zM200 0C89.54 0 0 89.54 0 200s89.54 200 200 200 200-89.54 200-200S310.46 0 200 0z"),
+                            .attribute(named: "fill", value: "#1ed760"),
+                       ])
+           )
+       }
+    
+    static func googlePodcastsSVG(_ extraClasses: String) -> Node {
+        
+        .svgWrapper(extraClasses, viewBox: "0 0 400 400",
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M25 161.36c-13.82 0-25 11.18-25 25v27.28c0 13.82 11.18 25 25 25s25-11.18 25-25v-27.28c0-13.82-11.18-25-25-25z"),
+                        .attribute(named: "fill", value: "#0066d9"),
+                    ]),
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M375 161.36c-13.82 0-25 11.18-25 25v27.28c0 13.82 11.18 25 25 25s25-11.18 25-25v-27.28c0-13.82-11.18-25-25-25z"),
+                        .attribute(named: "fill", value: "#4285f4"),
+                    ]),
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M111.37 243.18c-13.82 0-25 11.19-25 25v27.27c0 13.82 11.18 25 25 25s25-11.18 25-25v-27.26c0-13.82-11.18-25-25-25zM111.37 79.55c-13.82 0-25 11.18-25 25v89.2h.01a25 25 0 0024.99 24.43 25 25 0 0024.97-24.43h.03v-89.2c0-13.82-11.18-25-25-25z"),
+                        .attribute(named: "fill", value: "#ea4335"),
+                    ]),
+                    .element(named: "path", attributes: [
+                                           .attribute(named: "d", value: "M288.63 79.55a24.98 24.98 0 00-24.99 25v27.26a24.99 24.99 0 1049.99 0v-27.26c0-13.82-11.18-25-25-25z"),
+                                           .attribute(named: "fill", value: "#34a853"),
+                                       ]),
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M200 0c-13.82 0-25 11.18-25 25v27.27c0 13.81 11.18 25 25 25s25-11.19 25-25V25c0-13.82-11.18-25-25-25zM200 322.73c-13.82 0-25 11.18-25 25V375c0 13.82 11.18 25 25 25s25-11.18 25-25v-27.27c0-13.82-11.18-25-25-25z"),
+                        .attribute(named: "fill", value: "#fab908"),
+                    ]),
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M288.63 181.82a24.98 24.98 0 00-24.99 25v88.63a24.99 24.99 0 1049.99 0v-88.63c0-13.82-11.18-25-25-25z"),
+                        .attribute(named: "fill", value: "#34a853"),
+                    ]),
+                    .element(named: "path", attributes: [
+                                           .attribute(named: "d", value: "M225 127.27c0-13.82-11.18-25-25-25s-25 11.18-25 25v145.46c0 13.82 11.18 25 25 25s25-11.18 25-25V127.27z"),
+                                           .attribute(named: "fill", value: "#fab908"),
+                                       ])
+        )
+    }
+    
+    static func tuneInSVG(_ extraClasses: String) -> Node {
+        
+        .svgWrapper(extraClasses, viewBox: "0 0 400 400",
+                    .element(named: "path", attributes: [
+                        .attribute(named: "d", value: "M360.5 153.6c0-.9-.7-1.6-1.6-1.6h-8c-1 0-1.6.7-1.6 1.6v30c0 .6-.6.7-.7.2l-11-30.4a2 2 0 00-2-1.4h-9.5c-.9 0-1.6.7-1.6 1.6v52.8c0 .9.7 1.6 1.6 1.6h8c.9 0 1.6-.7 1.6-1.6v-27.7c0-.5.5-.6.7-.1l10.9 28c.2.7.8 1.4 2.1 1.4h9.5c.9 0 1.6-.7 1.6-1.6v-52.8zm-45 45.2c0-.9-.6-1.6-1.5-1.6h-6.8c-.5 0-.8-.3-.8-.8v-32.8c0-.5.3-.8.8-.8h6c.9 0 1.6-.7 1.6-1.6v-7.6c0-.9-.7-1.6-1.6-1.6h-24.8c-.9 0-1.6.7-1.6 1.6v7.6c0 .9.7 1.6 1.6 1.6h6c.5 0 .8.3.8.8v32.8c0 .5-.3.8-.8.8h-6.8c-.9 0-1.6.7-1.6 1.6v7.6c0 .9.7 1.6 1.6 1.6H314c.9 0 1.6-.7 1.6-1.6v-7.6zM244 164H13a1 1 0 00-1 1v110c0 .6.4 1 1 1h230c.6 0 1-.4 1-1V164zm156-46v124a6 6 0 01-6 6H256v34a6 6 0 01-6 6H6a6 6 0 01-6-6V158a6 6 0 016-6h238v-34a6 6 0 016-6h144a6 6 0 016 6zM208.5 236.8h-19c-.4 0-.7-.3-.7-.8v-9.6c0-.5.3-.8.8-.8h18c.9 0 1.6-.7 1.6-1.6v-8c0-.9-.7-1.6-1.6-1.6h-18c-.5 0-.8-.3-.8-.8V204c0-.5.3-.8.8-.8h18.6c1 0 1.6-.7 1.6-1.6v-8c0-.9-.7-1.6-1.6-1.6h-29c-.9 0-1.6.7-1.6 1.6v52.8c0 .9.7 1.6 1.6 1.6h29.3c1 0 1.6-.7 1.6-1.6v-8c0-.9-.7-1.6-1.6-1.6zM167.1 192h-8c-.9 0-1.6.7-1.6 1.6v30c0 .6-.5.7-.7.2l-11-30.4a2 2 0 00-2-1.4h-9.5c-.9 0-1.6.7-1.6 1.6v52.8c0 .9.7 1.6 1.6 1.6h8c.9 0 1.6-.7 1.6-1.6v-27.7c0-.5.6-.6.7-.1l11 28c.2.7.7 1.4 2 1.4h9.5c.9 0 1.6-.7 1.6-1.6v-52.8c0-.9-.7-1.6-1.6-1.6zm-45.1 0h-8c-1 0-1.7.7-1.7 1.6v37.6c0 3.5-2.9 6.4-7.7 6.4-4.8 0-7.6-2.9-7.6-6.4v-37.6c0-.9-.8-1.6-1.6-1.6h-8.1c-.9 0-1.6.7-1.6 1.6v37.6c0 9.7 8 17.7 18.9 17.7 11 0 19-8 19-17.7v-37.6c0-.9-.7-1.6-1.6-1.6zm-44 1.6v8c0 .9-.7 1.6-1.6 1.6h-10c-.5 0-.8.3-.8.8v42.4c0 .9-.7 1.6-1.6 1.6h-8c-.9 0-1.6-.7-1.6-1.6V204c0-.5-.3-.8-.8-.8h-10c-.9 0-1.6-.7-1.6-1.6v-8c0-.9.7-1.6 1.6-1.6h32.8c.9 0 1.6.7 1.6 1.6z"),
+                        .attribute(named: "fill", value: "#1c203c")
                     ])
         )
     }

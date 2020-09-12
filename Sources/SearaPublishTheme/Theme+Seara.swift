@@ -89,7 +89,8 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                 ),
                   .footer(for: context.site),
                   .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
-                  .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site)
+                  .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site),
+                  .episodePlayer(imgUrl:section.imagePath)
             )
         )
     }
@@ -278,9 +279,36 @@ private extension Node where Context == HTML.BodyContext {
     static func banner(_ colorClass: String,_ nodes: Node...) -> Node {
         .div(.class("banner \(colorClass)"), .group(nodes))
     }
-
+    
     static func bannerInfo(_ nodes: Node...) -> Node {
         .div(.class("info"), .group(nodes))
+    }
+    
+    static func episodePlayer(imgUrl:Path?) -> Node {
+        .div(.class("episode-player"),
+             .unwrap(imgUrl){.img(.class("episode-player-artwork"), .src($0.absoluteString))},
+             .wrapper("flex",
+                      .div(.class("episode-player-title"), .p("Bernardo Boone Parte 2")),
+                      .div(.id("scrubber"), .class("slider-wrapper horizontal"),
+                           .div(.id("scrubber-slider"), .class("slider"),
+                                .div(.id("scrubber-active-range"), .class("slider-active-range")),
+                                .div(.id("scrubber-handle"), .class("slider-handle"))
+                        ),
+                           .div(.class("scrub-time"),
+                                .span(.id("current-time"), "15:00"),
+                                .span(.id("total-time"), "30:00")
+                        )
+                )
+            ),
+             .button(.class("play")),
+             .div(.id("volume"), .class("slider-wrapper horizontal"),
+                  .div(.class("icon")),
+                  .div(.id("volume-slider"), .class("slider"),
+                       .div(.id("volume-active-range"), .class("slider-active-range")),
+                       .div(.id("volume-handle"), .class("slider-handle"))
+                )
+            )
+        )
     }
     
     static func compartilharDialog<T: Website>(_ title: String, imgUrl:Path?, shareUrl: Path, on site: T) -> Node {

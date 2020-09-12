@@ -1,0 +1,58 @@
+@use '../variables';
+
+.episode-player{
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: calc(100vw - 20px);
+    height:60px;
+    padding: 10px;
+    border-top: solid 1px variables.$light-gray;
+    display:grid;
+    grid-template-columns: 60px 6fr 60px 1fr;
+    grid-gap: 10px;
+    
+    p{
+        margin:0;   
+    }
+    
+    #scrubber{
+        flex-grow: 1;
+        margin-left: 10px;
+        position:relative;
+    }
+    
+    .play{
+        width:60px;
+        height:60px;
+    }
+}
+
+.episode-player-artwork{
+    width: 100%;
+}
+
+.episode-player-title{
+    display: flex;
+    align-items: center;
+    font-family: Montserrat;
+}
+
+.scrub-time{
+    position: absolute;
+    right: 0;
+    top: calc(50% + 4px);
+    color: variables.$light-gray;
+    span{
+        height: 15px;
+        display: inline-block;
+        line-height: 15px;
+    }
+}
+
+#current-time{
+    margin: 5px;
+    padding-right: 5px;
+    border-right: solid 1px variables.$light-gray;
+}

@@ -1,5 +1,15 @@
 @use '../variables';
 
+.flex{
+    display:flex;
+}
+
+.hidden{
+    //display: none;
+    visibility: hidden;
+    opacity: 0;
+}
+
 .play{
     width: 50px;
     height: 50px;
@@ -17,7 +27,7 @@
 			}
 }
 
-.episodios .play, .ao-vivo .play{
+.episodios .play, .ao-vivo .play, .episode-player .play{
         cursor: pointer;
         padding: 0;
         background-color: #fff;

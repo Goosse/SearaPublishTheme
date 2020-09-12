@@ -137,6 +137,15 @@ p.programa-no-ar {
   text-transform: none;
 }
 
+.flex {
+  display: flex;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
 .play {
   width: 50px;
   height: 50px;
@@ -153,7 +162,7 @@ p.programa-no-ar {
   border-width: 12px 0 12px 20px;
 }
 
-.episodios .play, .ao-vivo .play {
+.episodios .play, .ao-vivo .play, .episode-player .play {
   cursor: pointer;
   padding: 0;
   background-color: #fff;
@@ -161,7 +170,7 @@ p.programa-no-ar {
   border-color: #949494;
   margin: auto 0;
 }
-.episodios .play:after, .ao-vivo .play:after {
+.episodios .play:after, .ao-vivo .play:after, .episode-player .play:after {
   border-color: transparent transparent transparent #3F3F3F;
 }
 
@@ -487,18 +496,26 @@ button .label, .button .label {
   align-items: flex-end;
 }
 
-#volume {
+.slider-wrapper {
   display: flex;
   flex-direction: column;
 }
-#volume .icon {
+.slider-wrapper .icon {
   width: 20px;
   min-height: 17px;
   margin-top: 4px;
   background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" viewBox="0 0 369 317" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-miterlimit:10;"><g transform="matrix(1,0,0,1,-19032.1,-27467.3)"><g transform="matrix(8.33333,0,0,8.33333,0,0)"><g transform="matrix(1,0,0,1,2314.6,3325.62)"><path d="M0,-21.109C-0.113,-21.147 -0.189,-21.222 -0.151,-21.336L-0.038,-21.639C0,-21.752 0.076,-21.828 0.227,-21.79C11.122,-18.347 11.122,-2.724 0.227,0.719C0.076,0.757 0,0.719 -0.038,0.605L-0.151,0.303C-0.189,0.151 -0.113,0.076 0,0.038C10.214,-3.215 10.29,-17.855 0,-21.109ZM-2.61,-4.88C-2.61,-4.729 -2.534,-4.691 -2.383,-4.729C-0.833,-4.993 0.416,-5.674 1.287,-6.847C2.156,-7.982 2.572,-9.192 2.572,-10.516C2.572,-11.84 2.156,-13.051 1.287,-14.224C0.416,-15.396 -0.833,-16.078 -2.383,-16.342C-2.534,-16.38 -2.61,-16.305 -2.61,-16.191L-2.686,-15.851C-2.686,-15.737 -2.61,-15.661 -2.497,-15.624C3.254,-14.716 3.254,-6.317 -2.497,-5.41C-2.61,-5.41 -2.686,-5.334 -2.686,-5.182L-2.61,-4.88ZM-7.037,-23.416C-7.037,-23.757 -7.376,-23.908 -7.642,-23.719L-18.007,-15.926L-24.627,-15.926C-24.892,-15.926 -25.006,-15.813 -25.006,-15.548L-25.006,-5.523C-25.006,-5.258 -24.892,-5.145 -24.627,-5.145L-18.007,-5.145L-7.642,2.686C-7.376,2.875 -7.037,2.648 -7.037,2.346L-7.037,-23.416ZM-18.234,-4.426L-24.627,-4.426C-25.232,-4.426 -25.724,-4.918 -25.724,-5.523L-25.724,-15.548C-25.724,-16.153 -25.232,-16.645 -24.627,-16.645L-18.234,-16.645L-8.058,-24.287C-7.339,-24.854 -6.317,-24.287 -6.317,-23.379L-6.317,2.346C-6.317,3.216 -7.339,3.745 -8.058,3.254L-18.234,-4.426Z" style="fill:none;fill-rule:nonzero;stroke:rgb(148,148,148);stroke-width:1px;"/></g></g></g></svg>');
 }
 
-#volume-slider {
+.slider-wrapper.horizontal {
+  flex-direction: row;
+}
+.slider-wrapper.horizontal .icon {
+  margin: auto 4px auto 0;
+  height: 17px;
+}
+
+.slider {
   flex: 1;
   width: 10px;
   margin: auto;
@@ -507,7 +524,7 @@ button .label, .button .label {
   position: relative;
 }
 
-#volume-active-range {
+.slider-active-range {
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -516,7 +533,7 @@ button .label, .button .label {
   border-radius: 10px;
 }
 
-#volume-handle {
+.slider-handle {
   position: absolute;
   bottom: calc(50% - 10px);
   transform-origin: center;
@@ -529,9 +546,72 @@ button .label, .button .label {
   cursor: pointer;
 }
 
-.hidden {
-  visibility: hidden;
-  opacity: 0;
+.horizontal .slider {
+  height: 10px;
+}
+.horizontal .slider-active-range {
+  width: 50%;
+  height: 100%;
+  bottom: auto;
+  left: 0;
+}
+.horizontal .slider-handle {
+  left: calc(50% - 10px);
+  top: -5px;
+}
+
+.episode-player {
+  background-color: #fff;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: calc(100vw - 20px);
+  height: 60px;
+  padding: 10px;
+  border-top: solid 1px #949494;
+  display: grid;
+  grid-template-columns: 60px 6fr 60px 1fr;
+  grid-gap: 10px;
+}
+.episode-player p {
+  margin: 0;
+}
+.episode-player #scrubber {
+  flex-grow: 1;
+  margin-left: 10px;
+  position: relative;
+}
+.episode-player .play {
+  width: 60px;
+  height: 60px;
+}
+
+.episode-player-artwork {
+  width: 100%;
+}
+
+.episode-player-title {
+  display: flex;
+  align-items: center;
+  font-family: Montserrat;
+}
+
+.scrub-time {
+  position: absolute;
+  right: 0;
+  top: calc(50% + 4px);
+  color: #949494;
+}
+.scrub-time span {
+  height: 15px;
+  display: inline-block;
+  line-height: 15px;
+}
+
+#current-time {
+  margin: 5px;
+  padding-right: 5px;
+  border-right: solid 1px #949494;
 }
 
 .modal {

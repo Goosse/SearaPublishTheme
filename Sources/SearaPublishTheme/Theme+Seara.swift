@@ -39,23 +39,23 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
             .body(
                 .header(for: context, currentPagePath: index.path),
                 .banner("green",  .bannerInfo(
-                                        .h1(.text(index.title)),
-                                        .p(.class("description"),
-                                            .text(context.site.description)
+                    .h1(.text(index.title)),
+                    .p(.class("description"),
+                       .text(context.site.description)
                     )
                     ),
                         .unwrap(context.site.imagePath) { .div(.class("banner-artwork"),
-                                 .a(.href("/ao-vivo"),
-                                    .img(.src($0)),
-                                    .p(.class("ouca-agora"),"Ouça Agora"),
-                                    .p(.class("no-ar"),"NO AR"),
-                                    .p(.class("programa-no-ar"),"Seara Esporte Clube")
-                                )
-                        )}
+                                                               .a(.href("/ao-vivo"),
+                                                                  .img(.src($0)),
+                                                                  .p(.class("ouca-agora"),"Ouça Agora"),
+                                                                  .p(.class("no-ar"),"NO AR"),
+                                                                  .p(.class("programa-no-ar"),"Seara Esporte Clube")
+                            )
+                            )}
                 ),
                 .wrapper("home",
-                    .h2("Programas"),
-                    .sectionList(for: context.sections)
+                         .h2("Programas"),
+                         .sectionList(for: context.sections)
                     //                    .sectionList
                     //                    .sectionList  (for: context.sections)
                 ),
@@ -90,7 +90,8 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   .footer(for: context.site),
                   .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
                   .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site),
-                  .episodePlayer(imgUrl:section.imagePath)
+                  .episodePlayer(imgUrl:section.imagePath),
+                  .script(.src("/playerScript.js"))
             )
         )
     }
@@ -157,46 +158,47 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                                                   .src("/recursos/capas/ao-vivo.jpg")
                                         )
                             ),
-                                    .wrapper("col-2",
-                                             .h1(.id("live-track-title"), "Song Title"),
-                                             .p(.id("start-time"), "Começou às 16:00"),
-                                             .div(.class("button-wrapper"),
-                                                  .shareButton(),
-                                                  .a(.class("comprar-link button"),.href("/"),
-                                                     .span(.class("icon")),  .span(.class("label"), "Comprar"))
-                                        )
-                            ),
-                                    .wrapper("col-3",
-                                             .h2(.class("track-info-title"), "Informações"),
-                                             .p(.id("track-info"), "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium, totam rem aperia."),
-                                             .div(.class("button-wrapper"),
-                                                  .button(.class("curtir button"),
-                                                          .div(.class("icon")),
-                                                          .span(.class("label"), "Curtir")
-                                                ),
-                                                  .button(.class("ver-letra button"),
-                                                          .div(.class("icon")),
-                                                          .span(.class("label"), "Ver a letra")
-                                                )
-                                        )
-                            ),
-                                    .wrapper("col-4",
-                                             .span(.class("divider")),
-                                             .button(.class("play")),
-                                             .div(.id("volume"),
-                                                  .div(.id("volume-slider"),
-                                                       .div(.id("volume-active-range")),
-                                                       .div(.id("volume-handle"))
-                                                ),
-                                                  .div(.class("icon"))
+                                    //                                    .wrapper("col-2",
+                            //                                             .h1(.id("live-track-title"), "Song Title"),
+                            //                                             .p(.id("live-track-artist"), "Artista"),
+                            //                                             .div(.class("button-wrapper"),
+                            //                                                  .shareButton(),
+                            //                                                  .a(.class("comprar-link button"),.href("/"),
+                            //                                                     .span(.class("icon")),  .span(.class("label"), "Comprar"))
+                            //                                        )
+                            //                            ),
+                            //                                    .wrapper("col-3",
+                            //                                             .h2(.class("track-info-title"), "Informações"),
+                            //                                             .p(.id("track-info"), "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolorem que laudantium, totam rem aperia."),
+                            //                                             .div(.class("button-wrapper"),
+                            //                                                  .button(.class("curtir button"),
+                            //                                                          .div(.class("icon")),
+                            //                                                          .span(.class("label"), "Curtir")
+                            //                                                ),
+                            //                                                  .button(.class("ver-letra button"),
+                            //                                                          .div(.class("icon")),
+                            //                                                          .span(.class("label"), "Ver a letra")
+                            //                                                )
+                            //                                        )
+                            //                            ),
+                            .wrapper("col-4",
+                                     .span(.class("divider")),
+                                     .button(.class("play"), .id("live-play-button"), .attribute(named: "onclick", value: "toggleStream();")),
+                                     .div(.id("volume"), .class("slider-wrapper"),
+                                          .div(.id("volume-slider"), .class("slider"),
+                                               .div(.id("volume-active-range"), .class("slider-active-range"),
+                                                    .div(.id("volume-handle"), .class("slider-handle"))
+                                            )
                                         ),
-                                             .unwrap(page.audio, {
-                                                .audio(.id("player"),
-                                                .controls(false),
-                                                .source(.type($0.format), .src($0.url))
-                                                )
-                                             })
-                                        
+                                          .div(.class("icon"))
+                                ),
+                                     .unwrap(page.audio, {
+                                        .audio(.id("player"),
+                                               .controls(false),
+                                               .source(.type($0.format), .src($0.url))
+                                        )
+                                     })
+                                
                             )
                     )
                 ),
@@ -254,14 +256,14 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             for: context.items(
                                 taggedWith: page.tag,
                                 sortedBy: \.date,
-                            order: .descending
-                        ),
-                        on: context.site
+                                order: .descending
+                            ),
+                            on: context.site
                     ),
-                    .a(
-                        .class("call-to-action"),
-                        .text("Veja Todas as Palavras Chaves"),
-                        .href(context.site.tagListPath)
+                         .a(
+                            .class("call-to-action"),
+                            .text("Veja Todas as Palavras Chaves"),
+                            .href(context.site.tagListPath)
                     )
                 ),
                 .footer(for: context.site)
@@ -291,8 +293,9 @@ private extension Node where Context == HTML.BodyContext {
                       .div(.class("episode-player-title"), .p("Bernardo Boone Parte 2")),
                       .div(.id("scrubber"), .class("slider-wrapper horizontal"),
                            .div(.id("scrubber-slider"), .class("slider"),
-                                .div(.id("scrubber-active-range"), .class("slider-active-range")),
-                                .div(.id("scrubber-handle"), .class("slider-handle"))
+                                .div(.id("scrubber-active-range"), .class("slider-active-range"),
+                                     .div(.id("scrubber-handle"), .class("slider-handle"))
+                            )
                         ),
                            .div(.class("scrub-time"),
                                 .span(.id("current-time"), "15:00"),
@@ -304,8 +307,9 @@ private extension Node where Context == HTML.BodyContext {
              .div(.id("volume"), .class("slider-wrapper horizontal"),
                   .div(.class("icon")),
                   .div(.id("volume-slider"), .class("slider"),
-                       .div(.id("volume-active-range"), .class("slider-active-range")),
-                       .div(.id("volume-handle"), .class("slider-handle"))
+                       .div(.id("volume-active-range"), .class("slider-active-range"),
+                            .div(.id("volume-handle"), .class("slider-handle"))
+                    )
                 )
             )
         )
@@ -325,21 +329,21 @@ private extension Node where Context == HTML.BodyContext {
                             .facebookSVG(""),
                             .href("https://www.facebook.com/sharer/sharer.php?u=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
-                            )
+                        )
                     ),
                       .li(
                         .a(
                             .whatsAppSVG(""),
                             .href("https://api.whatsapp.com/send?text=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
-                            )
+                        )
                     ),
                       .li(
                         .a(
                             .twitterSVG(""),
                             .href("https://twitter.com/intent/tweet?url=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
-                            )
+                        )
                     )
                     ,
                       .li(
@@ -347,57 +351,57 @@ private extension Node where Context == HTML.BodyContext {
                             .emailSVG(""),
                             .href("mailto:?subject=Veja%20o%20que%20eu%20descrobi!&amp;body=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
-                            )
+                        )
                     )
                 )
             )
         )
     }
     
-     static func inscreverDialog<T: Website>(_ title: String, imgUrl:Path?, on site: T) -> Node {
+    static func inscreverDialog<T: Website>(_ title: String, imgUrl:Path?, on site: T) -> Node {
         .div(.class("inscrever modal hidden"),
-                    .div(.class("inscrever dialog"),
-                         .div(.class("close")),
-                         .unwrap(imgUrl){.img(.class("album-artwork"),
-                                              .src($0.absoluteString)
-                           )},
-                         .p(.text("Inscreva-se para sempre ouvir o"),
-                            .br(),
-                            .text(title)
-                        ),
-                         .ul(.class("inscrever-logos"),
-                             .li(
-                               .a(
-                                   .applePodcastsSVG(""),
-                                   .href("https://podcasts.apple.com"),
-                                   .target(.blank)
-                                   )
-                           ),
-                             .li(
-                               .a(
-                                   .spotifySVG(""),
-                                   .href("https://open.spotify.com/genre/podcasts-page"),
-                                   .target(.blank)
-                                   )
-                           ),
-                             .li(
-                               .a(
-                                   .googlePodcastsSVG(""),
-                                   .href("https://podcasts.google.com"),
-                                   .target(.blank)
-                                   )
-                           )
-                           ,
-                             .li(
-                               .a(
-                                   .tuneInSVG(""),
-                                   .href("https://tunein.com/podcasts/"),
-                                   .target(.blank)
-                                   )
-                           )
-                       )
-                   )
-               )
+             .div(.class("inscrever dialog"),
+                  .div(.class("close")),
+                  .unwrap(imgUrl){.img(.class("album-artwork"),
+                                       .src($0.absoluteString)
+                    )},
+                  .p(.text("Inscreva-se para sempre ouvir o"),
+                     .br(),
+                     .text(title)
+                ),
+                  .ul(.class("inscrever-logos"),
+                      .li(
+                        .a(
+                            .applePodcastsSVG(""),
+                            .href("https://podcasts.apple.com"),
+                            .target(.blank)
+                        )
+                    ),
+                      .li(
+                        .a(
+                            .spotifySVG(""),
+                            .href("https://open.spotify.com/genre/podcasts-page"),
+                            .target(.blank)
+                        )
+                    ),
+                      .li(
+                        .a(
+                            .googlePodcastsSVG(""),
+                            .href("https://podcasts.google.com"),
+                            .target(.blank)
+                        )
+                    )
+                    ,
+                      .li(
+                        .a(
+                            .tuneInSVG(""),
+                            .href("https://tunein.com/podcasts/"),
+                            .target(.blank)
+                        )
+                    )
+                )
+            )
+        )
     }
     
     static func header<T: Website>(
@@ -407,8 +411,8 @@ private extension Node where Context == HTML.BodyContext {
         
         return .header(
             .div(.class("header-wrapper"),
-                .a(.class("marca"), .href("/"), .img(.src("/marca.jpg"))),
-                .nav(
+                 .a(.class("marca"), .href("/"), .img(.src("/marca.jpg"))),
+                 .nav(
                     .ul(
                         .li(.a(
                             .class(currentPagePath == "" ? "selected" : ""),
@@ -450,11 +454,11 @@ private extension Node where Context == HTML.BodyContext {
                         .button(.class("play")),
                         .div(.class("info"),
                              .h3(.if(withLink,
-                                .a(
-                                .href(item.path),
-                                .text(item.title)
+                                     .a(
+                                        .href(item.path),
+                                        .text(item.title)
                                 ),
-                                else: .text(item.title))
+                                     else: .text(item.title))
                             ),
                              .unwrap($0.duration){
                                 .p(.class("date-time"), .text("\(dateFormatter.string(from:item.date))\(formatDuration(duration: $0))" ))},
@@ -480,7 +484,7 @@ private extension Node where Context == HTML.BodyContext {
                         .div(.class("artwork-wrapper"),
                              .img(.src($0)),
                              .div(.class("tint"),
-                                     .div(.class("play overlay"))
+                                  .div(.class("play overlay"))
                             )
                         )},
                        .h3(
@@ -497,8 +501,8 @@ private extension Node where Context == HTML.BodyContext {
     static func tagList<T: Website>(for item: Item<T>, on site: T) -> Node {
         return .ul(.class("tag-list"), .forEach(item.tags) { tag in
             .li(.a(.class("tag"),
-                .href(site.path(for: tag)),
-                .text(tag.string)
+                   .href(site.path(for: tag)),
+                   .text(tag.string)
                 ))
             })
     }
@@ -515,41 +519,41 @@ private extension Node where Context == HTML.BodyContext {
             .div(.class("footer-wrapper"),
                  .div(.class("social-wrapper"),
                       .p(.class("participe-social"),
-                        .text("Participe de Nossas Redes Sociais")
-                        ),
+                         .text("Participe de Nossas Redes Sociais")
+                    ),
                       .ul(.class("social-buttons-list"),
                           .li(.a(
                             .href(Path("https://fb.me/RadioSeara102.7")),
                             .target(.blank),
                             .rel(.noopener),
                             .rel(.noreferrer),
-                                  .img(.src("/facebook.png"))
+                            .img(.src("/facebook.png"))
                             )
                         ),
                           .li(.a(
-                              .href(Path("https://www.youtube.com/channel/UCiMyTT5oSoh69sDJNsOpDlg")),
-                              .target(.blank),
-                              .rel(.noopener),
-                              .rel(.noreferrer),
-                                    .img(.src("/youtube.png"))
-                              )
-                          ),
+                            .href(Path("https://www.youtube.com/channel/UCiMyTT5oSoh69sDJNsOpDlg")),
+                            .target(.blank),
+                            .rel(.noopener),
+                            .rel(.noreferrer),
+                            .img(.src("/youtube.png"))
+                            )
+                        ),
                           .li(.a(
-                              .href(Path("https://www.instagram.com/radioseara/")),
-                              .target(.blank),
-                              .rel(.noopener),
-                              .rel(.noreferrer),
-                                    .img(.src("/instagram.png"))
-                              )
-                          ),
+                            .href(Path("https://www.instagram.com/radioseara/")),
+                            .target(.blank),
+                            .rel(.noopener),
+                            .rel(.noreferrer),
+                            .img(.src("/instagram.png"))
+                            )
+                        ),
                           .li(.a(
-                              .href(Path("https://wa.me/558836721221")),
-                              .target(.blank),
-                              .rel(.noopener),
-                              .rel(.noreferrer),
-                                    .img(.src("/whatsapp.png"))
-                              )
-                          )
+                            .href(Path("https://wa.me/558836721221")),
+                            .target(.blank),
+                            .rel(.noopener),
+                            .rel(.noreferrer),
+                            .img(.src("/whatsapp.png"))
+                            )
+                        )
                     )
                 ),
                  .div(.class("copyright-wrapper"),
@@ -563,12 +567,12 @@ private extension Node where Context == HTML.BodyContext {
     /// Add an audio player and it's supporting elements for the Seara Publish Theme within the current context.
     /// - Parameter audio: The audio to add a player for.
     /// - Parameter showControls: Whether playback controls should be shown to the user.
-//    static func searaPlayer(for audio: Audio,
-//                            artworkSrc: Path, //eg. missing artwork image.
-//        showControls: Bool = true) -> Node {
-//        return .audio(
-//                        .controls(showControls),
-//                        .source(.type(audio.format), .src(audio.url))
-//            )
-//    }
+    //    static func searaPlayer(for audio: Audio,
+    //                            artworkSrc: Path, //eg. missing artwork image.
+    //        showControls: Bool = true) -> Node {
+    //        return .audio(
+    //                        .controls(showControls),
+    //                        .source(.type(audio.format), .src(audio.url))
+    //            )
+    //    }
 }

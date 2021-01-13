@@ -21,10 +21,19 @@
 				display: inline-block;
                // margin: 8% 0 0px 10%;
                 margin: auto;
-                margin-left: 35%;
+                margin-left: 38%;
 				border-style: solid;
 				border-width: 12px 0 12px 20px;
 			}
+}
+.player .play.playing{
+    &:after {
+        border-style: solid;
+        margin-left: 31%;
+        height: 50%;
+        border-style: double;
+        border-width: 0 0 0 30px;
+    }
 }
 
 .episodios .play, .ao-vivo .play, .episode-player .play{

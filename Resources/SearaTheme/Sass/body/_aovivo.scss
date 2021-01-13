@@ -28,10 +28,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     min-height: 150px;
-    width: 80%;
     display: grid;
-    min-width: 880px;
-    grid-template-columns: 150px 1fr 1fr 136px;
+   // width: 80%; With all invormation included
+   // min-width: 880px;  With all invormation included
+   // grid-template-columns: 150px 1fr 1fr 136px;  With all invormation included
+    grid-template-columns: 150px 136px;
     grid-gap: 15px;
     padding:20px;
 
@@ -88,9 +89,10 @@
     width:100%;
     max-width: 150px;
     margin: auto;
+    user-select: none;
 }
 
-#start-time, #track-info{
+#live-track-artist, #track-info{
     color: variables.$light-gray;
     margin: 0;
     font-size: 0.9em;
@@ -113,8 +115,8 @@
 
     .icon{
         background-image: variables.inline-svg(variables.$svg-comprar);
-        width: 20px;
-        height: 20px;
+        width: 22px;
+        height: 22px;
         margin: auto 0 auto 15px;
     }
 }
@@ -130,7 +132,7 @@
     .icon{
         background-image: variables.inline-svg(variables.$svg-heart);
         width: 22px;
-        height: 22px;
+        height: 20px;
         margin: auto 0 auto 15px;
 
     }

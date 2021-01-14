@@ -18,6 +18,7 @@ es.addEventListener('new-song', function (event) {
 });
 
 var stream = document.getElementById("player");
+stream.volume = 0.5;
 
 function toggleStream(){
     if (stream.paused){
@@ -53,7 +54,8 @@ const volumeWrapper = document.getElementById("volume");
 const volumeActiveRange = document.getElementById("volume-active-range");
 const volumeContainer = document.getElementById("volume-slider");
 const handle = document.getElementById("volume-handle");
-const handleWidth = handle.getBoundingClientRect().width - 2; 
+const handleDiameter = handle.getBoundingClientRect().width - 2; 
+
 
 
 const volumeRangeWidth = volumeContainer.getBoundingClientRect().width; 
@@ -84,16 +86,18 @@ function up() {
 function volumeSlide(event) {
     if (mouseIsDown) {
         if (volumeWrapper.classList.contains("horizontal")){            
-            let x = Math.floor(event.clientX - rect.left + handleWidth/2);
-            if (x < handleWidth) x = handleWidth; // check if it's too low
+            let x = Math.floor(event.clientX - rect.left + handleDiameter/2);
+            if (x < handleDiameter) x = handleDiameter; // check if it's too low
             if (x > volumeRangeWidth) x = volumeRangeWidth; // check if it's too high
             volumeActiveRange.style.width = x + 'px';
+            stream.volume = (x - handleDiameter)/(volumeRangeWidth - handleDiameter)
         }
         else{   
-            let y = Math.floor(event.clientY - rect.top - handleWidth/2);
+            let y = Math.floor(event.clientY - rect.top - handleDiameter/2);
             if (y < 0) y = 0; // check if it's too low
-            if (y > volumeRangeHeight - handleWidth) y = volumeRangeHeight - handleWidth; // check if it's too high
+            if (y > volumeRangeHeight - handleDiameter) y = volumeRangeHeight - handleDiameter; // check if it's too high
             volumeActiveRange.style.height = volumeRangeHeight - y + 'px';
+            stream.volume = (volumeRangeHeight - y - handleDiameter)/(volumeRangeHeight - handleDiameter)
         }
     }
 }

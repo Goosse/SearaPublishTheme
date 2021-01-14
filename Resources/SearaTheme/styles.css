@@ -536,7 +536,7 @@ button .label, .button .label {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 50%;
+  height: calc(50% + 9px);
   background-color: #3F3F3F;
   border-radius: 10px;
 }
@@ -558,7 +558,7 @@ button .label, .button .label {
   height: 10px;
 }
 .horizontal .slider-active-range {
-  width: 50%;
+  width: calc(50% + 9px);
   height: 100%;
   bottom: auto;
   left: 0;

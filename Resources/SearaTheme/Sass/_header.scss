@@ -1,7 +1,7 @@
 @use 'variables';
 
 header{
-	height: 80px;
+	height: 100px;
 	
 	li :not(.selected){
 		font-family: Xilosa;
@@ -21,13 +21,12 @@ header{
 
 .header-wrapper{
 		margin: 0 variables.$side-margins;
-        padding-top:10px;
 		justify-content: space-between;
 		display: flex;
 	}
 
 .marca img{
-	height:60px;
+	height:100px;
 }
 
 nav{

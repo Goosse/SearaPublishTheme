@@ -37,7 +37,7 @@ button, .button {
 }
 
 header {
-  height: 80px;
+  height: 100px;
 }
 header li :not(.selected) {
   font-family: Xilosa;
@@ -55,13 +55,12 @@ header li a {
 
 .header-wrapper {
   margin: 0 10%;
-  padding-top: 10px;
   justify-content: space-between;
   display: flex;
 }
 
 .marca img {
-  height: 60px;
+  height: 100px;
 }
 
 nav {

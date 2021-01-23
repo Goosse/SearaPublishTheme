@@ -76,7 +76,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                     .p(.class("description"),
                        .text(section.description)
                     ),
-                    .shareButton()
+                    .shareButton(for: section, on: context.site)
                     ),
                           .unwrap(section.imagePath){.div(.class("banner-artwork"),
                                                           .img(.src($0))
@@ -85,7 +85,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   .wrapper("episodios",
                            .h2(.text("Episódios")),
                            .itemList(for: section.items, on: context.site),
-                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"))
+                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"), .attribute(named: "onclick", value: "removeClass('inscrever-dialog', 'hidden')"))
                 ),
                   .footer(for: context.site),
                   .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
@@ -119,7 +119,9 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                            .itemList(for: [item], on: context.site, withLink: false),
                            .a(.class("call-to-action"), .href(context.sections[item.sectionID].path), .text("Veja Todos"))
                 ),
-                  .footer(for: context.site)
+                  .footer(for: context.site),
+                  .compartilharDialog(item.title, imgUrl:context.sections[item.sectionID].imagePath, shareUrl: item.path, on:context.site),
+                  .script(.src("/playerScript.js"))
             )
         )
     }
@@ -248,7 +250,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                 .header(for: context, currentPagePath: nil),
                 .banner("orange", .bannerInfo(
                     .h1("Palavra Chave: ", .span(.class("tag"),.text(page.tag.string))),
-                    .shareButton()
+                    .shareButton(for: page, on: context.site)
                     )
                 ),
                 .wrapper("episodios",
@@ -316,16 +318,18 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func compartilharDialog<T: Website>(_ title: String, imgUrl:Path?, shareUrl: Path, on site: T) -> Node {
-        .div(.class("share modal hidden"),
+        .div(.id("share-dialog"), .class("share modal hidden"),
              .div(.class("share dialog"),
-                  .div(.class("close")),
+                  .div(.class("close"), .attribute(named: "onclick", value: "closeDialog(this);")),
                   .unwrap(imgUrl){.img(.class("album-artwork"),
                                        .src($0.absoluteString)
                     )},
-                  .p(.text("Compartilhe \(title)")),
+                  .p(.text("Compartilhe "),
+                     .span(.id("share-title"), .text(title))),
                   .ul(.class("share-icons"),
                       .li(
                         .a(
+                            .id("fb-share"),
                             .facebookSVG(""),
                             .href("https://www.facebook.com/sharer/sharer.php?u=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
@@ -333,6 +337,7 @@ private extension Node where Context == HTML.BodyContext {
                     ),
                       .li(
                         .a(
+                            .id("wa-share"),
                             .whatsAppSVG(""),
                             .href("https://api.whatsapp.com/send?text=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
@@ -340,6 +345,7 @@ private extension Node where Context == HTML.BodyContext {
                     ),
                       .li(
                         .a(
+                            .id("twitter-share"),
                             .twitterSVG(""),
                             .href("https://twitter.com/intent/tweet?url=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
                             .target(.blank)
@@ -348,10 +354,9 @@ private extension Node where Context == HTML.BodyContext {
                     ,
                       .li(
                         .a(
+                            .id("email-share"),
                             .emailSVG(""),
-                            .href("mailto:?subject=Veja%20o%20que%20eu%20descrobi!&amp;body=\(site.url.absoluteString)\(shareUrl.absoluteString)"),
-                            .target(.blank)
-                        )
+                            .href("mailto:?subject=Veja%20o%20que%20eu%20descrobi!&body=\(site.url.absoluteString)\(shareUrl.absoluteString)")                        )
                     )
                 )
             )
@@ -359,9 +364,9 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func inscreverDialog<T: Website>(_ title: String, imgUrl:Path?, on site: T) -> Node {
-        .div(.class("inscrever modal hidden"),
+        .div(.id("inscrever-dialog"), .class("inscrever modal hidden"),
              .div(.class("inscrever dialog"),
-                  .div(.class("close")),
+                  .div(.class("close"), .attribute(named: "onclick", value: "closeDialog(this);")),
                   .unwrap(imgUrl){.img(.class("album-artwork"),
                                        .src($0.absoluteString)
                     )},
@@ -465,7 +470,8 @@ private extension Node where Context == HTML.BodyContext {
                              .p(.class("description"), .text(item.description)),
                              .tagList(for: item, on: site)
                         ),
-                        .shareButton()
+                        .shareButton(for: item, on: site)
+                       // .shareButton(item.path)
                         )
                     )
                 }
@@ -507,8 +513,9 @@ private extension Node where Context == HTML.BodyContext {
             })
     }
     
-    static func shareButton() -> Node {
+    static func shareButton<T: Website>(for location:Publish.Location, on site: T) -> Node {
         return .button(.class("compartilhar"),
+                       .attribute(named: "onclick", value: "shareUrl('\(site.url)\(location.path.absoluteString)', '\(location.title)')"),
                        .div(.class("icon")),
                        .span(.class("label"), "Compartilhar")
         )

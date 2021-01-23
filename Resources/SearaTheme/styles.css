@@ -429,6 +429,7 @@ button .label, .button .label {
   width: 75px;
   height: 75px;
   margin: auto 20px;
+  outline: none;
 }
 .player .play:after {
   border-width: 18px 0 18px 30px;

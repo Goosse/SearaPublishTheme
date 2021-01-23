@@ -40,6 +40,29 @@ function pauseStream(){
     stream.pause();
 }
 
+function shareUrl(url, title){
+    var dialog = document.getElementById("share-dialog")
+    var fb = document.getElementById("fb-share")
+    var wa = document.getElementById("wa-share")
+    var twitter = document.getElementById("twitter-share")
+    var email = document.getElementById("email-share")
+    var titleSpan = document.getElementById("share-title")
+    
+    fb.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(url)
+    wa.href = "whatsapp://send?text=" + url
+    twitter.href = "https://twitter.com/intent/tweet?text=" + encodeURI(url)
+    email.href = "mailto:?subject=Veja%20o%20que%20eu%20descrobi!&body=" + url
+    titleSpan.innerHTML = title
+    
+    dialog.classList.remove("hidden")
+}
+
+
+function closeDialog(button){
+    console.log(button);
+    button.parentElement.parentElement.classList.add("hidden");
+}
+
 function addClass(id, newclass){
     document.getElementById(id).classList.add(newclass);
 }

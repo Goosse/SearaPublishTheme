@@ -185,7 +185,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             //                            ),
                             .wrapper("col-4",
                                      .span(.class("divider")),
-                                     .button(.class("play"), .id("live-play-button"), .attribute(named: "onclick", value: "toggleStream();")),
+                                     .button(.class("play"), .id("live-play-button"), .attribute(named: "onclick", value: "toggleLiveStream(this);")),
                                      .div(.id("volume"), .class("slider-wrapper"),
                                           .div(.id("volume-slider"), .class("slider"),
                                                .div(.id("volume-active-range"), .class("slider-active-range"),
@@ -289,10 +289,10 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func episodePlayer(imgUrl:Path?) -> Node {
-        .div(.class("episode-player"),
-             .unwrap(imgUrl){.img(.class("episode-player-artwork"), .src($0.absoluteString))},
+        .div(.id("bar-player-wrapper"),
+             .unwrap(imgUrl){.img(.class("bar-player-artwork"), .src($0.absoluteString))},
              .wrapper("flex",
-                      .div(.class("episode-player-title"), .p("Bernardo Boone Parte 2")),
+                      .div(.id("bar-player-title"), .text("Bernardo Boone Parte 2")),
                       .div(.id("scrubber"), .class("slider-wrapper horizontal"),
                            .div(.id("scrubber-slider"), .class("slider"),
                                 .div(.id("scrubber-active-range"), .class("slider-active-range"),
@@ -300,12 +300,12 @@ private extension Node where Context == HTML.BodyContext {
                             )
                         ),
                            .div(.class("scrub-time"),
-                                .span(.id("current-time"), "15:00"),
+                                .span(.id("current-time"), "00:00"),
                                 .span(.id("total-time"), "30:00")
                         )
                 )
             ),
-             .button(.class("play")),
+             .button(.class("play"), .id("bar-play-button"), .attribute(named: "onclick", value: "toggleStream(this);")),
              .div(.id("volume"), .class("slider-wrapper horizontal"),
                   .div(.class("icon")),
                   .div(.id("volume-slider"), .class("slider"),
@@ -313,7 +313,11 @@ private extension Node where Context == HTML.BodyContext {
                             .div(.id("volume-handle"), .class("slider-handle"))
                     )
                 )
-            )
+            ),
+            .audio(.id("player"),
+                    .controls(false),
+                    .source(.type(.mp3), .src(""))
+             )
         )
     }
     
@@ -450,13 +454,18 @@ private extension Node where Context == HTML.BodyContext {
             let totalMinutes = duration.hours*60 + duration.minutes + (duration.seconds>0 ? Int(1) : Int(0))
             return " | \(totalMinutes) min"
         }
+        func durationInSeconds(duration:Audio.Duration) -> Int {
+            return duration.hours*3600 + duration.minutes*60 + duration.seconds
+        }
         
         return .ul(
             .class("item-list"),
             .forEach(items) { item in
-                .unwrap(item.audio) {
+                .unwrap(item.audio) { audio in
                     .li(.article(
-                        .button(.class("play")),
+                        .unwrap(audio.duration){ dur in
+                            .button(.class("play"), .attribute(named: "onclick", value: "playEpisode('\(audio.url)', '\(item.title)', '\(durationInSeconds(duration: dur))')"))
+                        },
                         .div(.class("info"),
                              .h3(.if(withLink,
                                      .a(
@@ -465,8 +474,8 @@ private extension Node where Context == HTML.BodyContext {
                                 ),
                                      else: .text(item.title))
                             ),
-                             .unwrap($0.duration){
-                                .p(.class("date-time"), .text("\(dateFormatter.string(from:item.date))\(formatDuration(duration: $0))" ))},
+                             .unwrap(audio.duration){ dur in
+                                .p(.class("date-time"), .text("\(dateFormatter.string(from:item.date))\(formatDuration(duration: dur))" ))},
                              .p(.class("description"), .text(item.description)),
                              .tagList(for: item, on: site)
                         ),

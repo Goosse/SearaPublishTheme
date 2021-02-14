@@ -18,26 +18,61 @@ es.addEventListener('new-song', function (event) {
 });
 
 var stream = document.getElementById("player");
+var streamFullTime = 0 //in seconds
+var scrubUpdater
 stream.volume = 0.5;
 
-function toggleStream(){
+
+function toggleLiveStream(playButton){
     if (stream.paused){
-        playStream()
+        addClass(playButton.id, "playing");
+        //  stream.load();
+        stream.play();
     }
     else{
-        pauseStream()
+        removeClass(playButton.id, "playing");
+        stream.pause();
     }
 }
 
-function playStream(){
-    addClass("live-play-button", "playing");
-    stream.load();
+function toggleStream(playButton){
+    if (stream.paused){
+        playStream(playButton.id)
+    }
+    else{
+        pauseStream(playButton.id)
+    }
+}
+function playStream(buttonId){
+    addClass(buttonId, "playing");
+    //  stream.load();
     stream.play();
+    scrubUpdater = window.setInterval(updateScrubber, 1000);
 }
 
-function pauseStream(){
-    removeClass("live-play-button", "playing");
+function pauseStream(buttonId){
+    removeClass(buttonId, "playing");
     stream.pause();
+    clearInterval(scrubUpdater) 
+}
+
+function playEpisode(audioUrl, title, time){
+    removeClass("bar-player-wrapper", "hidden");
+    var player = document.getElementById("player")
+    var playerTitle = document.getElementById("bar-player-title")
+    var totalTime = document.getElementById("total-time")
+
+    player.getElementsByTagName('source')[0].setAttribute('src', audioUrl)
+    playerTitle.innerHTML = title
+    var formattedTime = new Date(time * 1000).toISOString().substr(11, 8)
+    if (formattedTime.substr(0,2) == "00") {
+        formattedTime = formattedTime.substr(3, formattedTime.length - 3)
+    }
+    totalTime.innerHTML = formattedTime
+    streamFullTime = time
+    console.log("streamFullTime: " + streamFullTime)
+    stream.load();
+    playStream("bar-play-button")
 }
 
 function shareUrl(url, title){
@@ -47,13 +82,13 @@ function shareUrl(url, title){
     var twitter = document.getElementById("twitter-share")
     var email = document.getElementById("email-share")
     var titleSpan = document.getElementById("share-title")
-    
+
     fb.href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURI(url)
     wa.href = "whatsapp://send?text=" + url
     twitter.href = "https://twitter.com/intent/tweet?text=" + encodeURI(url)
     email.href = "mailto:?subject=Veja%20o%20que%20eu%20descrobi!&body=" + url
     titleSpan.innerHTML = title
-    
+
     dialog.classList.remove("hidden")
 }
 
@@ -70,6 +105,68 @@ function addClass(id, newclass){
 function removeClass(id, oldclass){
     document.getElementById(id).classList.remove(oldclass);
 }
+
+/*Begin scrubber slider code*/
+//const scrubberWrapper = document.getElementById("scrubber");
+const scrubberActiveRange = document.getElementById("scrubber-active-range");
+const scrubberContainer = document.getElementById("scrubber-slider");
+const scrubberHandle = document.getElementById("scrubber-handle");
+const scrubberHandleDiameter = scrubberHandle.getBoundingClientRect().width - 2; 
+
+function updateScrubber(){
+    var scrubberRect = scrubberContainer.getBoundingClientRect();  //We set this everytime because it can change depending on episode title length.
+    let x = stream.currentTime / streamFullTime * (scrubberRect.width - scrubberHandleDiameter) + scrubberHandleDiameter
+    scrubberActiveRange.style.width = x + "px"
+    displayFormattedCurrentTime(stream.currentTime)
+}
+
+function displayFormattedCurrentTime(seconds){
+    
+    var currentTime = document.getElementById("current-time")
+    var formattedTime = new Date(seconds * 1000).toISOString().substr(11, 8)
+    if (formattedTime.substr(0,2) == "00") {
+        formattedTime = formattedTime.substr(3, formattedTime.length - 3)
+    }
+    currentTime.innerHTML = formattedTime
+}
+
+//var scrubberRect = scrubberContainer.getBoundingClientRect();
+
+var scrubberMouseIsDown = false;
+
+window.addEventListener("mouseup", scrubberUp);
+scrubberContainer.addEventListener("mousedown", scrubberDown);
+scrubberContainer.addEventListener("mousedown", scrubberSlide);
+scrubberContainer.addEventListener("mousemove", scrubberSlide);
+window.addEventListener("mousemove", scrubberSlide);
+
+function scrubberDown() {
+    scrubberMouseIsDown = true;
+}
+
+function scrubberUp() {
+    scrubberMouseIsDown = false;
+}
+
+function scrubberSlide(event) {
+    if (scrubberMouseIsDown) {
+        var scrubberRect = scrubberContainer.getBoundingClientRect();  //We set this everytime because it can change depending on episode title length.
+        console.log("scrubberRect: " + scrubberRect.left)
+        console.log("event.clientX: " + event.clientX)
+        let x = Math.floor(event.clientX - scrubberRect.left + scrubberHandleDiameter/2);
+        console.log("x start:" + x)
+        if (x < scrubberHandleDiameter) x = scrubberHandleDiameter; // check if it's too far left
+        if (x > scrubberRect.width) x = scrubberRect.width; // check if it's too far right
+        scrubberActiveRange.style.width = x + 'px';
+        stream.currentTime = Math.floor((x -  scrubberHandleDiameter)/(scrubberRect.width - scrubberHandleDiameter)* streamFullTime)
+       // scrubberActiveRange.style.width = "calc("+ (stream.currentTime/streamFullTime*100) + "% + " + scrubberHandleDiameter/2 + "px)"
+        displayFormattedCurrentTime(stream.currentTime)
+        console.log("x:" + x)
+        console.log("currentTime: " + stream.currentTime)
+    }
+}
+
+/*End scrubber slider code*/
 
 /*Begin volume slider code*/
 
@@ -93,7 +190,7 @@ volumeContainer.addEventListener("mousedown", volumeSlide);
 volumeContainer.addEventListener("mousemove", volumeSlide);
 window.addEventListener("mousemove", volumeSlide);
 document.onselectstart = () => {
-  if (mouseIsDown){
+    if (mouseIsDown || scrubberMouseIsDown){
         return false;// cancel selection
     } 
 };

@@ -1,6 +1,6 @@
 @use '../variables';
 
-.episode-player{
+#bar-player-wrapper{
     background-color: #fff;
     position: fixed;
     bottom: 0;
@@ -29,11 +29,11 @@
     }
 }
 
-.episode-player-artwork{
+.bar-player-artwork{
     width: 100%;
 }
 
-.episode-player-title{
+#bar-player-title{
     display: flex;
     align-items: center;
     font-family: Montserrat;

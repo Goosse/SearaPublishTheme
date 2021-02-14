@@ -161,15 +161,19 @@ p.programa-no-ar {
   border-width: 12px 0 12px 20px;
 }
 
-.player .play.playing:after {
+.play.playing:after {
   border-style: solid;
   margin-left: 31%;
   height: 50%;
   border-style: double;
+  border-width: 0 0 0 24px;
+}
+
+.player .play.playing:after {
   border-width: 0 0 0 30px;
 }
 
-.episodios .play, .ao-vivo .play, .episode-player .play {
+.episodios .play, .ao-vivo .play, #bar-player-wrapper .play {
   cursor: pointer;
   padding: 0;
   background-color: #fff;
@@ -177,7 +181,7 @@ p.programa-no-ar {
   border-color: #949494;
   margin: auto 0;
 }
-.episodios .play:after, .ao-vivo .play:after, .episode-player .play:after {
+.episodios .play:after, .ao-vivo .play:after, #bar-player-wrapper .play:after {
   border-color: transparent transparent transparent #3F3F3F;
 }
 
@@ -189,6 +193,7 @@ p.programa-no-ar {
 button, .button {
   padding: 0;
   background-color: #fff;
+  outline: none;
 }
 button .label, .button .label {
   text-align: center;
@@ -429,7 +434,6 @@ button .label, .button .label {
   width: 75px;
   height: 75px;
   margin: auto 20px;
-  outline: none;
 }
 .player .play:after {
   border-width: 18px 0 18px 30px;
@@ -569,7 +573,7 @@ button .label, .button .label {
   left: unset;
 }
 
-.episode-player {
+#bar-player-wrapper {
   background-color: #fff;
   position: fixed;
   bottom: 0;
@@ -582,24 +586,24 @@ button .label, .button .label {
   grid-template-columns: 60px 6fr 60px 1fr;
   grid-gap: 10px;
 }
-.episode-player p {
+#bar-player-wrapper p {
   margin: 0;
 }
-.episode-player #scrubber {
+#bar-player-wrapper #scrubber {
   flex-grow: 1;
   margin-left: 10px;
   position: relative;
 }
-.episode-player .play {
+#bar-player-wrapper .play {
   width: 60px;
   height: 60px;
 }
 
-.episode-player-artwork {
+.bar-player-artwork {
   width: 100%;
 }
 
-.episode-player-title {
+#bar-player-title {
   display: flex;
   align-items: center;
   font-family: Montserrat;

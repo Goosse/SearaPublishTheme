@@ -26,17 +26,23 @@
 				border-width: 12px 0 12px 20px;
 			}
 }
-.player .play.playing{
+.play.playing{
     &:after {
         border-style: solid;
         margin-left: 31%;
         height: 50%;
         border-style: double;
-        border-width: 0 0 0 30px;
+        border-width: 0 0 0 24px;
+    }
+}
+.player .play.playing{
+    &:after {
+                border-width: 0 0 0 30px;
     }
 }
 
-.episodios .play, .ao-vivo .play, .episode-player .play{
+.episodios .play, .ao-vivo .play, #bar-player-wrapper
+.play{
         cursor: pointer;
         padding: 0;
         background-color: #fff;
@@ -56,6 +62,7 @@
 button, .button{
         padding: 0;
         background-color: #fff;
+        outline:none;
      .label{
          text-align: center;
          flex-grow: 1;

@@ -22,7 +22,8 @@ h2 {
 
 h3 {
   font-family: Montserrat;
-  font-size: 1.05vw;
+  font-size: 1.2em;
+  font-weight: bold;
 }
 
 button, .button {
@@ -47,14 +48,13 @@ header li :not(.selected) {
 }
 header li {
   display: inline-block;
-  margin-left: 22px;
 }
 header li a {
   padding: 5px 20px;
 }
 
 .header-wrapper {
-  margin: 0 10%;
+  margin-right: 10px;
   justify-content: space-between;
   display: flex;
 }
@@ -71,17 +71,22 @@ ul {
   list-style-type: none;
 }
 
+@media only screen and (min-width: 768px) {
+  .header-wrapper {
+    margin: 0 10%;
+  }
+}
 .banner {
   min-height: 220px;
-  padding: 0 20% 20px 10%;
   color: white;
-  display: flex;
-  justify-content: space-between;
+  padding: 20px 10%;
   background-image: url("banner-marca-color-75.png");
   background-position: right;
   background-repeat: no-repeat;
   background-size: contain;
   background-blend-mode: luminosity;
+  text-align: center;
+  text-shadow: 1px 1px #000;
 }
 .banner.green {
   background-color: #007985;
@@ -92,10 +97,6 @@ ul {
 .banner .info {
   align-self: center;
 }
-.banner .description {
-  text-align: justify;
-  margin-right: 20px;
-}
 .banner .tag {
   display: inline-block;
   font-family: "Open Sans";
@@ -104,8 +105,8 @@ ul {
 .banner-artwork {
   align-self: center;
   text-align: center;
-  width: 125px;
-  min-width: 125px;
+  width: 90%;
+  margin: 0 5%;
 }
 .banner-artwork p {
   margin: 0;
@@ -136,6 +137,25 @@ p.programa-no-ar {
   text-transform: none;
 }
 
+@media only screen and (min-width: 768px) {
+  .banner {
+    display: flex;
+    justify-content: space-between;
+    text-align: left;
+    padding: 0 20% 20px 10%;
+  }
+
+  .description {
+    text-align: left;
+    margin-right: 20px;
+  }
+
+  .banner-artwork {
+    width: 125px;
+    min-width: 125px;
+    margin: 0;
+  }
+}
 .flex {
   display: flex;
 }
@@ -201,18 +221,14 @@ button .label, .button .label {
 }
 
 .wrapper.home {
-  padding: 0 20%;
+  padding: 0 10%;
 }
 
 .program-list {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
   text-align: center;
 }
 .program-list li {
   margin-left: 0;
-  width: 30%;
   margin-bottom: 10px;
 }
 .program-list li:hover .tint {
@@ -254,9 +270,22 @@ button .label, .button .label {
 .program-list p {
   color: #949494;
   margin: 0;
-  font-size: 0.8vw;
 }
 
+@media only screen and (min-width: 768px) {
+  .wrapper.home {
+    padding: 0 20%;
+  }
+
+  .program-list {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+  .program-list li {
+    width: 30%;
+  }
+}
 .wrapper.episodios {
   display: flex;
   flex-direction: column;
@@ -419,9 +448,6 @@ button .label, .button .label {
   text-align: left;
   text-transform: capitalize;
   color: #000;
-}
-.player .col-1 {
-  display: flex;
 }
 .player .col-2, .player .col-3 {
   display: flex;

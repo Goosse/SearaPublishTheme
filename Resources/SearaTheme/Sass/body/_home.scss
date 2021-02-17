@@ -1,68 +1,80 @@
 @use '../variables';
 
 .wrapper.home{
-	padding:0 variables.$side-margins*2;
+    padding:0 variables.$side-margins;
 }
 
 .program-list{
-	
-	display: flex;
-	flex-flow: row wrap;
-  	justify-content: space-between;
-	text-align: center;
-	
-	li{
-		margin-left:0;
-  		width: 30%;
-  		margin-bottom: 10px;
-		&:hover .tint{
-			background:rgba(variables.$green, 0.82);
-		}
-		
-		&:hover .play.overlay {
-  			background: rgba(#fff, 0.5);
-  			
-			&:after {
-				border-color: transparent transparent transparent white;
-			}
-		}
-	}
-	
-	img{
-		width: 100%;
-		vertical-align: top;
-	}
-	
-	.artwork-wrapper{
-		position:relative;
-		
-	}
-	.tint{
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		display: flex;
-		transition: all .3s linear;
-	}
-	
-	.play.overlay{
-		transition: all .3s linear;
+
+    text-align: center;
+
+    li{
+        margin-left:0;
+      //  width: 30%;
+        margin-bottom: 10px;
+        &:hover .tint{
+            background:rgba(variables.$green, 0.82);
+        }
+
+        &:hover .play.overlay {
+            background: rgba(#fff, 0.5);
+
+            &:after {
+                border-color: transparent transparent transparent white;
+            }
+        }
+    }
+
+    img{
+        width: 100%;
+        vertical-align: top;
+    }
+
+    .artwork-wrapper{
+        position:relative;
+
+    }
+    .tint{
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        display: flex;
+        transition: all .3s linear;
+    }
+
+    .play.overlay{
+        transition: all .3s linear;
         margin: auto;
 
-		&:after {
-                border-color: transparent;
-				transition: all .3s linear;
-			}
-	}
-	
-	h3{
-		margin:4px 0;
-	}
-	p{
-		color: #949494;
-		margin:0;
-		font-size: 0.8vw;
-	}
+        &:after {
+            border-color: transparent;
+            transition: all .3s linear;
+        }
+    }
+
+    h3{
+        margin:4px 0;
+    }
+    p{
+        color: #949494;
+        margin:0;
+      //  font-size: 0.8vw;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    .wrapper.home{
+    padding:0 variables.$side-margins*2;
+}
+    .program-list{
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        li{
+            width: 30%;
+        }
+    }
 }

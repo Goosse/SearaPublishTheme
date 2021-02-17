@@ -12,7 +12,6 @@ header{
 	
 	li{
 		display: inline-block;
-		margin-left: 22px;
 		a{
 			padding: 5px 20px;
 		}
@@ -20,7 +19,8 @@ header{
 }
 
 .header-wrapper{
-		margin: 0 variables.$side-margins;
+        margin-right: 10px;
+		//margin: 0 variables.$side-margins/2;
 		justify-content: space-between;
 		display: flex;
 	}
@@ -35,4 +35,10 @@ nav{
 
 ul{
 	list-style-type: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .header-wrapper{
+        margin: 0 variables.$side-margins;
+    }
 }

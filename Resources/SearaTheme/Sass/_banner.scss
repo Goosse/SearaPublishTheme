@@ -1,66 +1,61 @@
 @use 'variables';
 
 .banner{
-	min-height: 220px;
-	padding:0 variables.$side-margins*2 20px variables.$side-margins;
-	color: white;
-	display: flex;
-	justify-content: space-between;
-	background-image: url("banner-marca-color-75.png");
-	background-position: right; 
-	background-repeat: no-repeat;
-	background-size:contain;
-	background-blend-mode: luminosity;
-	
-	&.green{
-		background-color: variables.$green;
-	}
-	
-	&.orange{
-		background-color: variables.$orange;
-	}
-	
-	.info{
-		align-self: center;
-	}
-	.description{
-        text-align: justify;
-        margin-right: 20px;
-	}
-    
-    .tag{
-    display: inline-block;
-    font-family: "Open Sans";
-}
+    min-height: 220px;
+    color: white;
+    padding:20px variables.$side-margins;
+    background-image: url("banner-marca-color-75.png");
+    background-position: right; 
+    background-repeat: no-repeat;
+    background-size:contain;
+    background-blend-mode: luminosity;
+    text-align: center;
+    text-shadow: 1px 1px #000;
 
+    &.green{
+        background-color: variables.$green;
+    }
+
+    &.orange{
+        background-color: variables.$orange;
+    }
+
+    .info{
+        align-self: center;
+    }
+
+    .tag{
+        display: inline-block;
+        font-family: "Open Sans";
+    }
 
 }
 
 .banner-artwork{
-	align-self: center;
-	text-align: center;
-	width: 125px;
-    min-width: 125px;
-	
-	p{
-		margin:0;
-	}
-	
-	
-	img{
-		width:100%;
-	}
+    align-self: center;
+    text-align: center;
+    width: 90%;
+    margin: 0 5%;
+
+    p{
+        margin:0;
+    }
+
+
+    img{
+        width:100%;
+    }
 }
 
 p.no-ar{
-	background-color: red;
-	padding: 2px;
-	margin-top:5px;
-	border-radius: 5px;
+    background-color: red;
+    padding: 2px;
+    margin-top:5px;
+    border-radius: 5px;
 }
 
 p.programa-no-ar{
-	font-size: 0.8em;
+    font-size: 0.8em;
 }
 
 .item-page{
@@ -69,14 +64,34 @@ p.programa-no-ar{
             h1, h2{
                 margin: 10px 0;
             }
-            
+
             h2{
-               font-size: 1em;
+                font-size: 1em;
                 color: #fff;
                 text-align: right;
                 font-family: "Open Sans";
                 text-transform: none;
             }
         }
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .banner{
+        display: flex;
+        justify-content: space-between;
+        text-align: left;
+        padding:0 variables.$side-margins*2 20px variables.$side-margins;
+    }
+
+    .description{
+        text-align: left;
+        margin-right: 20px;
+    }
+
+    .banner-artwork{
+        width: 125px;
+        min-width: 125px;
+        margin:0;
     }
 }

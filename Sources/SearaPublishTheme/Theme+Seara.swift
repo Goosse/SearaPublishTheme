@@ -48,8 +48,9 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                                                                .a(.href("/ao-vivo"),
                                                                   .img(.src($0)),
                                                                   .p(.class("ouca-agora"),"Ouça Agora"),
-                                                                  .p(.class("no-ar"),"NO AR"),
-                                                                  .p(.class("programa-no-ar"),"Seara Esporte Clube")
+                                                                  .p(.class("no-ar"),"NO AR")
+                                                                //                                                            ,
+                                                                //                                                                  .p(.class("programa-no-ar"),"Seara Esporte Clube")
                             )
                             )}
                 ),
@@ -314,10 +315,10 @@ private extension Node where Context == HTML.BodyContext {
                     )
                 )
             ),
-            .audio(.id("player"),
+             .audio(.id("player"),
                     .controls(false),
                     .source(.type(.mp3), .src(""))
-             )
+            )
         )
     }
     
@@ -421,18 +422,21 @@ private extension Node where Context == HTML.BodyContext {
         return .header(
             .div(.class("header-wrapper"),
                  .a(.class("marca"), .href("/"), .img(.src("/marca.jpg"))),
-                 .nav(
-                    .ul(
-                        .li(.a(
-                            .class(currentPagePath == "" ? "selected" : ""),
-                            .href("/"),
-                            .text("Programas")
-                            )),
-                        .li(.a(
-                            .class(currentPagePath == "ao-vivo" ? "selected" : ""),
-                            .href("/ao-vivo"),
-                            .text("Ao Vivo")
-                            ))
+                 .if(currentPagePath != "",
+                     .nav(
+                        .ul(
+                            .li(.a(
+                                //  .class(currentPagePath == "" ? "selected" : ""),
+                                .href("/"),
+                                .text("Início")
+                                ))
+                            //                        ,
+                            //                        .li(.a(
+                            //                            .class(currentPagePath == "ao-vivo" ? "selected" : ""),
+                            //                            .href("/ao-vivo"),
+                            //                            .text("Ao Vivo")
+                            //                            ))
+                        )
                     )
                 )
             )
@@ -480,7 +484,7 @@ private extension Node where Context == HTML.BodyContext {
                              .tagList(for: item, on: site)
                         ),
                         .shareButton(for: item, on: site)
-                       // .shareButton(item.path)
+                        // .shareButton(item.path)
                         )
                     )
                 }

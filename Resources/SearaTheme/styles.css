@@ -48,6 +48,7 @@ header li :not(.selected) {
 }
 header li {
   display: inline-block;
+  font-size: 1.3em;
 }
 header li a {
   padding: 5px 20px;
@@ -533,6 +534,11 @@ button .label, .button .label {
   align-items: flex-end;
 }
 
+@media only screen and (max-width: 341px) {
+  .player {
+    padding: calc((100% - 301px) / 2);
+  }
+}
 .slider-wrapper {
   display: flex;
   flex-direction: column;

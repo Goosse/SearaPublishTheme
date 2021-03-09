@@ -26,23 +26,6 @@
         position: absolute;
         right: 10px;
         top: 10px;
-        border: solid 1px #000;
-        border-radius: 50%;
-        text-align: center;
-        font-size: 9px;
-        line-height: 15px;
-        width:20px;
-        height:20px;
-        cursor: pointer;
-
-        &:after{
-            content: "";
-            display: block;
-            width: 10px;
-            height: 10px;
-            margin: 5px auto;
-            background: linear-gradient(-45deg, transparent 0%, transparent 47%, black 47%, black 53%, transparent 53%, transparent 100%), linear-gradient(45deg, transparent 0%, transparent 47%, black 47%, black 53%, transparent 53%, transparent 100%);
-        }
     }
 
     img{

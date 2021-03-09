@@ -57,7 +57,7 @@ function pauseStream(buttonId){
 }
 
 function playEpisode(audioUrl, title, time){
-    removeClass("bar-player-wrapper", "hidden");
+    removeClass("bar-player-wrapper", "closed");
     var player = document.getElementById("player")
     var playerTitle = document.getElementById("bar-player-title")
     var totalTime = document.getElementById("total-time")
@@ -70,7 +70,6 @@ function playEpisode(audioUrl, title, time){
     }
     totalTime.innerHTML = formattedTime
     streamFullTime = time
-    console.log("streamFullTime: " + streamFullTime)
     stream.load();
     playStream("bar-play-button")
 }
@@ -94,9 +93,14 @@ function shareUrl(url, title){
 
 
 function closeDialog(button){
-    console.log(button);
     button.parentElement.parentElement.classList.add("hidden");
 }
+
+function closePlayer(button){
+    button.parentElement.classList.add("closed");
+    pauseStream("bar-play-button");
+}
+
 
 function addClass(id, newclass){
     document.getElementById(id).classList.add(newclass);
@@ -205,7 +209,7 @@ function up() {
 
 function volumeSlide(event) {
     if (mouseIsDown) {
-        if (volumeWrapper.classList.contains("horizontal")){            
+        if (volumeWrapper.classList.contains("horizontal") && document.body.clientWidth >= 768){            
             let x = Math.floor(event.clientX - rect.left + handleDiameter/2);
             if (x < handleDiameter) x = handleDiameter; // check if it's too low
             if (x > volumeRangeWidth) x = volumeRangeWidth; // check if it's too high

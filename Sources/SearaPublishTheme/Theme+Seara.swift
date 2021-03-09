@@ -290,7 +290,7 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func episodePlayer(imgUrl:Path?) -> Node {
-        .div(.id("bar-player-wrapper"),
+        .div(.id("bar-player-wrapper"), .class("closed"),
              .unwrap(imgUrl){.img(.class("bar-player-artwork"), .src($0.absoluteString))},
              .wrapper("flex",
                       .div(.id("bar-player-title"), .text("Bernardo Boone Parte 2")),
@@ -315,6 +315,7 @@ private extension Node where Context == HTML.BodyContext {
                     )
                 )
             ),
+             .div(.class("close"), .attribute(named: "onclick", value: "closePlayer(this);")),
              .audio(.id("player"),
                     .controls(false),
                     .source(.type(.mp3), .src(""))

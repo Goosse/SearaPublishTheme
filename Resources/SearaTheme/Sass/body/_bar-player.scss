@@ -4,14 +4,17 @@
     background-color: #fff;
     position: fixed;
     bottom: 0;
+    transform: translateY(0);
+    transition: transform 0.5s;
     left: 0;
     width: calc(100vw - 20px);
     height:60px;
     padding: 10px;
     border-top: solid 1px variables.$light-gray;
     display:grid;
-    grid-template-columns: 60px 6fr 60px 1fr;
+    grid-template-columns: 60px 6fr 60px 1fr 22px;
     grid-gap: 10px;
+    align-items: center;
     
     p{
         margin:0;   
@@ -27,6 +30,12 @@
         width:60px;
         height:60px;
     }
+    
+}
+
+#bar-player-wrapper.closed{
+    transform: translateY(100%);
+    transition: transform 0.5s;
 }
 
 .bar-player-artwork{

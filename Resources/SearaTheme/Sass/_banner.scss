@@ -1,6 +1,8 @@
 @use 'variables';
 
 .banner{
+    display: flex;
+    flex-direction: column;
     min-height: 220px;
     color: white;
     padding:20px variables.$side-margins;
@@ -32,6 +34,7 @@
 }
 
 .banner-artwork{
+    order:-1;
     align-self: center;
     text-align: center;
     width: 90%;
@@ -45,6 +48,10 @@
     img{
         width:100%;
     }
+}
+
+.banner.green .banner-artwork{
+    order:1;
 }
 
 p.no-ar{
@@ -78,7 +85,7 @@ p.programa-no-ar{
 
 @media only screen and (min-width: 768px) {
     .banner{
-        display: flex;
+        flex-direction: row;
         justify-content: space-between;
         text-align: left;
         padding:0 variables.$side-margins*2 20px variables.$side-margins;
@@ -93,5 +100,6 @@ p.programa-no-ar{
         width: 125px;
         min-width: 125px;
         margin:0;
+        order:1;
     }
 }

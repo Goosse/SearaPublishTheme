@@ -1,4 +1,4 @@
-var es = new EventSource('https://api.radioseara.fm/updates/current-song-stream');
+/*var es = new EventSource('https://api.radioseara.fm/updates/current-song-stream');
 
 es.onmessage = function (event) {
     console.log("on message: " + event.data)
@@ -16,11 +16,16 @@ es.addEventListener('new-song', function (event) {
     // document.getElementById("artwork").setAttribute("src", parsedData.artwork ? 'http://localhost:3000/' + parsedData.artwork : "/recursos/missingArtwork.jpg")
     // document.getElementById("lyrics").innerHTML = parsedData.lyrics ? parsedData.lyrics : ""
 });
+*/
 
 var stream = document.getElementById("player");
 var streamFullTime = 0 //in seconds
 var scrubUpdater
 stream.volume = 0.5;
+stream.addEventListener("volumechange", function() {
+    //stream volume can be controlled, so show the volume slider.
+    removeClass("volume", "hidden");    
+});
 
 
 function toggleLiveStream(playButton){
@@ -70,6 +75,7 @@ function playEpisode(audioUrl, title, time){
     }
     totalTime.innerHTML = formattedTime
     streamFullTime = time
+    updateSliderVariables();  //The episode title can change the scrubber slider's length.
     stream.load();
     playStream("bar-play-button")
 }
@@ -89,18 +95,59 @@ function shareUrl(url, title){
     titleSpan.innerHTML = title
 
     dialog.classList.remove("hidden")
+    disableScrolling();
 }
 
 
 function closeDialog(button){
     button.parentElement.parentElement.classList.add("hidden");
+    enableScrolling();
 }
 
 function closePlayer(button){
-    button.parentElement.classList.add("closed");
-    pauseStream("bar-play-button");
+    if(button.parentElement.classList.contains("full")){
+        minimizePlayer()
+    }else{
+        button.parentElement.classList.add("closed");
+        pauseStream("bar-play-button");
+    }
 }
 
+function minimizePlayer(){
+    document.getElementById("bar-player-wrapper").classList.remove("full");
+    enableScrolling();
+}
+
+function expandPlayer(){
+    const vw = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0)
+    var target = event.target ? event.target : event.srcElement;
+    if (vw < 768 && target.id != "bar-play-button") {
+        if (target.classList.contains("close")){}
+        else{
+            if(document.getElementById("bar-player-wrapper").classList.contains("full")){}
+            else{
+                document.getElementById("bar-player-wrapper").classList.add("full");
+                disableScrolling();
+                updateSliderVariables();
+            }
+        }
+    }
+}
+
+function disableScrolling(){
+    document.body.style.top = -window.scrollY + 'px';
+    document.body.top = -window.scrollY;
+    document.body.style.position = 'fixed';
+
+}
+
+function enableScrolling(){
+    //const scrollY = document.body.style.top;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    window.scrollTo(0, -document.body.top);
+    document.body.top = '';
+}
 
 function addClass(id, newclass){
     document.getElementById(id).classList.add(newclass);
@@ -110,22 +157,34 @@ function removeClass(id, oldclass){
     document.getElementById(id).classList.remove(oldclass);
 }
 
+function updateSliderVariables(){  //On small screens, the scrubber and volume sliders are hidden until the player is expanded.  So the boundingrect variables of their elements need to be updated so that they are not zero.
+    scrubberHandleDiameter = document.getElementById("scrubber-handle").getBoundingClientRect().width - 2; 
+    scrubberRect = scrubberContainer.getBoundingClientRect();
+    volumeHandleDiameter = document.getElementById("volume-handle").getBoundingClientRect().width - 2;
+    volumeRect = volumeContainer.getBoundingClientRect();
+}
+
 /*Begin scrubber slider code*/
 //const scrubberWrapper = document.getElementById("scrubber");
-const scrubberActiveRange = document.getElementById("scrubber-active-range");
-const scrubberContainer = document.getElementById("scrubber-slider");
-const scrubberHandle = document.getElementById("scrubber-handle");
-const scrubberHandleDiameter = scrubberHandle.getBoundingClientRect().width - 2; 
+
+var scrubberActiveRange;
+var scrubberContainer;
+var scrubberHandleDiameter;
+
+if (document.getElementById("scrubber-slider")){
+    scrubberActiveRange = document.getElementById("scrubber-active-range");
+    scrubberContainer = document.getElementById("scrubber-slider");
+    scrubberHandleDiameter = document.getElementById("scrubber-handle").getBoundingClientRect().width - 2; 
+}
 
 function updateScrubber(){
-    var scrubberRect = scrubberContainer.getBoundingClientRect();  //We set this everytime because it can change depending on episode title length.
     let x = stream.currentTime / streamFullTime * (scrubberRect.width - scrubberHandleDiameter) + scrubberHandleDiameter
     scrubberActiveRange.style.width = x + "px"
     displayFormattedCurrentTime(stream.currentTime)
 }
 
 function displayFormattedCurrentTime(seconds){
-    
+
     var currentTime = document.getElementById("current-time")
     var formattedTime = new Date(seconds * 1000).toISOString().substr(11, 8)
     if (formattedTime.substr(0,2) == "00") {
@@ -136,13 +195,18 @@ function displayFormattedCurrentTime(seconds){
 
 //var scrubberRect = scrubberContainer.getBoundingClientRect();
 
-var scrubberMouseIsDown = false;
+if (document.getElementById("scrubber-slider")){
+    var scrubberMouseIsDown = false;
 
-window.addEventListener("mouseup", scrubberUp);
-scrubberContainer.addEventListener("mousedown", scrubberDown);
-scrubberContainer.addEventListener("mousedown", scrubberSlide);
-scrubberContainer.addEventListener("mousemove", scrubberSlide);
-window.addEventListener("mousemove", scrubberSlide);
+    window.addEventListener("mouseup", scrubberUp);
+    window.addEventListener("touchend", scrubberUp);
+    scrubberContainer.addEventListener("touchstart", scrubberDown);
+    scrubberContainer.addEventListener("mousedown", scrubberDown);
+    scrubberContainer.addEventListener("mousedown", scrubberSlide);
+    scrubberContainer.addEventListener("touchmove", scrubberSlide);
+    scrubberContainer.addEventListener("mousemove", scrubberSlide);
+    window.addEventListener("mousemove", scrubberSlide);
+}
 
 function scrubberDown() {
     scrubberMouseIsDown = true;
@@ -154,19 +218,22 @@ function scrubberUp() {
 
 function scrubberSlide(event) {
     if (scrubberMouseIsDown) {
-        var scrubberRect = scrubberContainer.getBoundingClientRect();  //We set this everytime because it can change depending on episode title length.
-        console.log("scrubberRect: " + scrubberRect.left)
-        console.log("event.clientX: " + event.clientX)
-        let x = Math.floor(event.clientX - scrubberRect.left + scrubberHandleDiameter/2);
-        console.log("x start:" + x)
+        var clientX = 0;
+        if (typeof event.touches != "undefined") { //Is this a touch event?
+            clientX = event.touches[0].clientX;
+        }
+        else{ //This is a click event.
+            clientX = event.clientX;
+        }
+
+        let x = Math.floor(clientX - scrubberRect.left + scrubberHandleDiameter/2);
+
         if (x < scrubberHandleDiameter) x = scrubberHandleDiameter; // check if it's too far left
         if (x > scrubberRect.width) x = scrubberRect.width; // check if it's too far right
+
         scrubberActiveRange.style.width = x + 'px';
         stream.currentTime = Math.floor((x -  scrubberHandleDiameter)/(scrubberRect.width - scrubberHandleDiameter)* streamFullTime)
-       // scrubberActiveRange.style.width = "calc("+ (stream.currentTime/streamFullTime*100) + "% + " + scrubberHandleDiameter/2 + "px)"
         displayFormattedCurrentTime(stream.currentTime)
-        console.log("x:" + x)
-        console.log("currentTime: " + stream.currentTime)
     }
 }
 
@@ -177,20 +244,17 @@ function scrubberSlide(event) {
 const volumeWrapper = document.getElementById("volume");
 const volumeActiveRange = document.getElementById("volume-active-range");
 const volumeContainer = document.getElementById("volume-slider");
-const handle = document.getElementById("volume-handle");
-const handleDiameter = handle.getBoundingClientRect().width - 2; 
-
-
-
-const volumeRangeWidth = volumeContainer.getBoundingClientRect().width; 
-const volumeRangeHeight = volumeContainer.getBoundingClientRect().height;
-var rect = volumeContainer.getBoundingClientRect();
+var volumeHandleDiameter = document.getElementById("volume-handle").getBoundingClientRect().width - 2; 
+var volumeRect = volumeContainer.getBoundingClientRect();
 
 let mouseIsDown = false;
 
 window.addEventListener("mouseup", up);
+window.addEventListener("touchend", up);
+volumeContainer.addEventListener("touchstart", down);
 volumeContainer.addEventListener("mousedown", down);
 volumeContainer.addEventListener("mousedown", volumeSlide);
+volumeContainer.addEventListener("touchmove", volumeSlide);
 volumeContainer.addEventListener("mousemove", volumeSlide);
 window.addEventListener("mousemove", volumeSlide);
 document.onselectstart = () => {
@@ -199,32 +263,50 @@ document.onselectstart = () => {
     } 
 };
 
-function down() {
+function down(event) {
     mouseIsDown = true;
+    if (typeof event.touches != "undefined") { 
+        disableScrolling();
+    }
 }
 
-function up() {
+function up(event) {
+    if (mouseIsDown  && typeof event.touches != "undefined"){
+        enableScrolling();
+    }
     mouseIsDown = false;
 }
 
 function volumeSlide(event) {
     if (mouseIsDown) {
-        if (volumeWrapper.classList.contains("horizontal") && document.body.clientWidth >= 768){            
-            let x = Math.floor(event.clientX - rect.left + handleDiameter/2);
-            if (x < handleDiameter) x = handleDiameter; // check if it's too low
-            if (x > volumeRangeWidth) x = volumeRangeWidth; // check if it's too high
+        if (volumeWrapper.classList.contains("horizontal")){ 
+            var clientX = 0;
+            if (typeof event.touches != "undefined") { //Is this a touch event?
+                clientX = event.touches[0].clientX;
+            }
+            else{ //This is a click event.
+                clientX = event.clientX;
+            }
+            let x = Math.floor(clientX - volumeRect.left + volumeHandleDiameter/2);
+            if (x < volumeHandleDiameter) x = volumeHandleDiameter; // check if it's too low
+            if (x > volumeRect.width) x = volumeRect.width; // check if it's too high
             volumeActiveRange.style.width = x + 'px';
-            stream.volume = (x - handleDiameter)/(volumeRangeWidth - handleDiameter)
+            stream.volume = (x - volumeHandleDiameter)/(volumeRect.width - volumeHandleDiameter)
         }
-        else{   
-            let y = Math.floor(event.clientY - rect.top - handleDiameter/2);
+        else{  
+            var clientY = 0;
+            if (typeof event.touches != "undefined") { //Is this a touch event?
+                clientY = event.touches[0].clientY - document.body.top;//Window clientY is to resolve issue created by disableing scrolling on touch screens.
+            }
+            else{ //This is a click event.
+                clientY = event.clientY + window.scrollY;
+            }
+            let y = Math.floor(clientY - volumeRect.top - volumeHandleDiameter/2);
             if (y < 0) y = 0; // check if it's too low
-            if (y > volumeRangeHeight - handleDiameter) y = volumeRangeHeight - handleDiameter; // check if it's too high
-            volumeActiveRange.style.height = volumeRangeHeight - y + 'px';
-            stream.volume = (volumeRangeHeight - y - handleDiameter)/(volumeRangeHeight - handleDiameter)
+            if (y > volumeRect.height - volumeHandleDiameter) y = volumeRect.height - volumeHandleDiameter; // check if it's too high
+            volumeActiveRange.style.height = volumeRect.height - y + 'px';
+            stream.volume = (volumeRect.height - y - volumeHandleDiameter)/(volumeRect.height - volumeHandleDiameter)
         }
     }
 }
 /*End volume slider code*/
-
-

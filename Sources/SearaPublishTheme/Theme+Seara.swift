@@ -9,6 +9,10 @@ import Publish
 import Files
 import Foundation
 
+extension Website {
+    var resourceTag: Int { Int.random(in: 1..<1000000) }
+}
+
 
 public extension Theme {
     
@@ -35,7 +39,8 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: index, on: context.site),
+            .head(for: index, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
+    //        .head(for: index, on: context.site),
             .body(
                 .header(for: context, currentPagePath: index.path),
                 .banner("green",  .bannerInfo(
@@ -69,7 +74,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                          context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: section, on: context.site),
+            .head(for: section, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(.class(section.id.rawValue),
                   .header(for: context, currentPagePath: nil),
                   .banner("orange", .bannerInfo(
@@ -86,13 +91,13 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   .wrapper("episodios",
                            .h2(.text("Episódios")),
                            .itemList(for: section.items, on: context.site),
-                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"), .attribute(named: "onclick", value: "removeClass('inscrever-dialog', 'hidden')"))
+                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"), .attribute(named: "onclick", value: "removeClass('inscrever-dialog', 'hidden');disableScrolling();"))
                 ),
                   .footer(for: context.site),
                   .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
                   .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site),
                   .episodePlayer(imgUrl:section.imagePath),
-                  .script(.src("/playerScript.js"))
+                  .script(.src("/playerScript.js?\(context.site.resourceTag)"))
             )
         )
     }
@@ -101,7 +106,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: item, on: context.site),
+            .head(for: item, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(.class("item-page \(item.sectionID.rawValue)"),
                   .header(for: context, currentPagePath: nil),
                   .banner("orange",
@@ -122,7 +127,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                 ),
                   .footer(for: context.site),
                   .compartilharDialog(item.title, imgUrl:context.sections[item.sectionID].imagePath, shareUrl: item.path, on:context.site),
-                  .script(.src("/playerScript.js"))
+                  .script(.src("/playerScript.js?\(context.site.resourceTag)"))
             )
         )
     }
@@ -136,7 +141,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         
         return HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site)   ,
+            .head(for: page, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(
                 .header(for: context, currentPagePath: page.path),
                 .wrapper("",.contentBody(page.body)),
@@ -151,7 +156,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                         context: PublishingContext<Site>) throws -> HTML {
         return HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(.class("live-player"),
                   .header(for: context, currentPagePath: page.path),
                   .wrapper("ao-vivo",
@@ -187,7 +192,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             .wrapper("col-4",
                                      .span(.class("divider")),
                                      .button(.class("play"), .id("live-play-button"), .attribute(named: "onclick", value: "toggleLiveStream(this);")),
-                                     .div(.id("volume"), .class("slider-wrapper"),
+                                     .div(.id("volume"), .class("slider-wrapper hidden"),
                                           .div(.id("volume-slider"), .class("slider"),
                                                .div(.id("volume-active-range"), .class("slider-active-range"),
                                                     .div(.id("volume-handle"), .class("slider-handle"))
@@ -206,7 +211,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                     )
                 ),
                   .footer(for: context.site),
-                  .script(.src("/playerScript.js"))
+                  .script(.src("/playerScript.js?\(context.site.resourceTag)"))
             )
         )
     }
@@ -216,7 +221,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(
                 .header(for: context, currentPagePath: nil),
                 .banner("orange", .bannerInfo(
@@ -246,7 +251,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             context: PublishingContext<Site>) throws -> HTML? {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
+            .head(for: page, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
             .body(
                 .header(for: context, currentPagePath: nil),
                 .banner("orange", .bannerInfo(
@@ -269,7 +274,9 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                             .href(context.site.tagListPath)
                     )
                 ),
-                .footer(for: context.site)
+                .footer(for: context.site),
+                .compartilharDialog(page.title, imgUrl:nil, shareUrl: page.path, on:context.site),
+                .script(.src("/playerScript.js?\(context.site.resourceTag)"))
             )
         )
     }
@@ -291,7 +298,9 @@ private extension Node where Context == HTML.BodyContext {
     
     static func episodePlayer(imgUrl:Path?) -> Node {
         .div(.id("bar-player-wrapper"), .class("closed"),
-             .unwrap(imgUrl){.img(.class("bar-player-artwork"), .src($0.absoluteString))},
+             .attribute(named: "onclick", value: "expandPlayer();"),
+             .attribute(named: "onmousedown", value: "function(e){e.stopPropagation();};"),
+             .unwrap(imgUrl){ .img(.class("bar-player-artwork"), .src($0.absoluteString))},
              .wrapper("flex",
                       .div(.id("bar-player-title"), .text("Bernardo Boone Parte 2")),
                       .div(.id("scrubber"), .class("slider-wrapper horizontal"),
@@ -307,7 +316,7 @@ private extension Node where Context == HTML.BodyContext {
                 )
             ),
              .button(.class("play"), .id("bar-play-button"), .attribute(named: "onclick", value: "toggleStream(this);")),
-             .div(.id("volume"), .class("slider-wrapper horizontal"),
+             .div(.id("volume"), .class("slider-wrapper horizontal hidden"),
                   .div(.class("icon")),
                   .div(.id("volume-slider"), .class("slider"),
                        .div(.id("volume-active-range"), .class("slider-active-range"),

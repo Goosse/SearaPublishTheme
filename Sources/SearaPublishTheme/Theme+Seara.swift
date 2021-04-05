@@ -22,12 +22,12 @@ public extension Theme {
             htmlFactory: SearaHTMLFactory(),
             resourcePaths: ["Resources/SearaTheme/styles.css",
                             "Resources/SearaTheme/playerScript.js",
-                            "Resources/SearaTheme/theme-resources/marca.jpg",
-                            "Resources/SearaTheme/theme-resources/banner-marca-color-75.png",
-                            "Resources/SearaTheme/theme-resources/facebook.png",
-                            "Resources/SearaTheme/theme-resources/instagram.png",
-                            "Resources/SearaTheme/theme-resources/whatsapp.png",
-                            "Resources/SearaTheme/theme-resources/youtube.png",
+                            "Resources/SearaTheme/theme-resources/marca.webp",
+                            "Resources/SearaTheme/theme-resources/banner-marca-color-75.webp",
+                            "Resources/SearaTheme/theme-resources/facebook.webp",
+                            "Resources/SearaTheme/theme-resources/instagram.webp",
+                            "Resources/SearaTheme/theme-resources/whatsapp.webp",
+                            "Resources/SearaTheme/theme-resources/youtube.webp",
                             "Resources/SearaTheme/xilosa.ttf"
             ]
         )
@@ -163,7 +163,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                            .wrapper("player",
                                     .wrapper("col-1",
                                              .img(.id("live-artwork"),
-                                                  .src("/recursos/capas/ao-vivo.jpg")
+                                                  .src("/recursos/capas/ao-vivo.webp")
                                         )
                             ),
                                     //                                    .wrapper("col-2",
@@ -431,7 +431,7 @@ private extension Node where Context == HTML.BodyContext {
         
         return .header(
             .div(.class("header-wrapper"),
-                 .a(.class("marca"), .href("/"), .img(.src("/marca.jpg"))),
+                 .a(.class("marca"), .href("/"), .img(.src("/marca.webp"))),
                  .if(currentPagePath != "",
                      .nav(
                         .ul(
@@ -557,7 +557,7 @@ private extension Node where Context == HTML.BodyContext {
                             .target(.blank),
                             .rel(.noopener),
                             .rel(.noreferrer),
-                            .img(.src("/facebook.png"))
+                            .img(.src("/facebook.webp"))
                             )
                         ),
                           .li(.a(
@@ -565,7 +565,7 @@ private extension Node where Context == HTML.BodyContext {
                             .target(.blank),
                             .rel(.noopener),
                             .rel(.noreferrer),
-                            .img(.src("/youtube.png"))
+                            .img(.src("/youtube.webp"))
                             )
                         ),
                           .li(.a(
@@ -573,7 +573,7 @@ private extension Node where Context == HTML.BodyContext {
                             .target(.blank),
                             .rel(.noopener),
                             .rel(.noreferrer),
-                            .img(.src("/instagram.png"))
+                            .img(.src("/instagram.webp"))
                             )
                         ),
                           .li(.a(
@@ -581,7 +581,7 @@ private extension Node where Context == HTML.BodyContext {
                             .target(.blank),
                             .rel(.noopener),
                             .rel(.noreferrer),
-                            .img(.src("/whatsapp.png"))
+                            .img(.src("/whatsapp.webp"))
                             )
                         )
                     )

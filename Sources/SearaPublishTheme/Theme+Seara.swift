@@ -10,7 +10,7 @@ import Files
 import Foundation
 
 extension Website {
-    var resourceTag: Int { Int.random(in: 1..<1000000) }
+    var resourceTag: String { "\(Calendar.current.component(.year, from: Date()))\(Calendar.current.component(.month, from: Date()))\(Calendar.current.component(.day, from: Date()))\(Calendar.current.component(.hour, from: Date()))\(Calendar.current.component(.minute, from: Date()))\(Calendar.current.component(.second, from: Date()))"}
 }
 
 

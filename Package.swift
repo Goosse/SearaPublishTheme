@@ -12,8 +12,8 @@ let package = Package(
             targets: ["SearaPublishTheme"]),
     ],
     dependencies: [
-       // .package(path: "../SimpleSassPublishPlugin"),
-        .package(path: "../Publish"),
+        //        .package(path: "../Publish"),
+        .package(url: "https://github.com/Goosse/Publish.git", from: "0.1.0"),
 
     ],
     targets: [

@@ -65,7 +65,8 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                     //                    .sectionList
                     //                    .sectionList  (for: context.sections)
                 ),
-                .footer(for: context.site)
+                .footer(for: context.site),
+                .script(.src("https://identity.netlify.com/v1/netlify-identity-widget.js"))
             )
         )
     }

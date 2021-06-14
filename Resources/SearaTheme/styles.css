@@ -837,6 +837,21 @@ button .label, .button .label {
   fill: #E60A80;
 }
 
+.wrapper.esposa {
+  padding: 0 20%;
+}
+.wrapper.esposa h1 {
+  text-align: center;
+}
+.wrapper.esposa img {
+  width: 100%;
+}
+.wrapper.esposa figcaption {
+  text-align: center;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
 footer {
   background-color: #EC9F17;
   color: #fff;

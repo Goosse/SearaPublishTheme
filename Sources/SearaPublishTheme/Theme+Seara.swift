@@ -138,6 +138,9 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         if page.path == "ao-vivo" {
             return try makePlayerHTML(for: page, context: context)
         }
+        if page.path == "a-esposa-por-tras" {
+            return try makeEsposaHTML(for: page, context: context)
+        }
         
         
         return HTML(
@@ -242,6 +245,50 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                                 )
                             }
                     )
+                ),
+                .footer(for: context.site)
+            )
+        )
+    }
+    
+    func makeEsposaHTML(for page: Page,
+                        context: PublishingContext<Site>) throws -> HTML {
+        return HTML(
+            .lang(context.site.language),
+            .head(for: page, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
+            .body(
+                .header(for: context, currentPagePath: page.path),
+                .banner("orange", .bannerInfo(
+                    .h1("Este site só se realizou porque tem uma mulher de Provérbios 31 por trás.  Sou muito grato a Deus por ela."),
+                    .h1("–Josué Goossen")
+                    )
+                ),
+                .wrapper("esposa",
+                         .h1("\(page.title)"),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image01.jpeg")),
+                                .element(named: "figcaption", text: "Como é difícil encontrar uma boa esposa! Ela vale mais do que pedras preciosas! Pv.31:10")
+                                  ]),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image02.jpg")),
+                                .element(named: "figcaption", text: "Ela se levanta de madrugada para preparar comida para a família... Pv.31:15")
+                                  ]),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image03.jpeg")),
+                                .element(named: "figcaption", text: "É esforçada, forte e trabalhadora. Conhece o valor de tudo o que faz e trabalha até tarde da noite. Pv.31:17-18")
+                                  ]),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image04.jpeg")),
+                                .element(named: "figcaption", text: "Ela nunca tem preguiça e está sempre cuidando da sua família. Pv.31:27")
+                                  ]),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image05.jpeg")),
+                                .element(named: "figcaption", text: "Os seus filhos a respeitam e falam bem dela, e... Pv.31:28a")
+                                  ]),
+                         .element(named: "figure", nodes: [
+                            .img(.src("https://radioseara.nyc3.digitaloceanspaces.com/esposa/image06.jpeg")),
+                                .element(named: "figcaption", text: "o seu marido a elogia. Ele diz: “Muitas mulheres são boas esposas, mas você é a melhor de todas.” Pv.31:28b-29")
+                                  ])
                 ),
                 .footer(for: context.site)
             )

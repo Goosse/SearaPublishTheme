@@ -508,7 +508,8 @@ private extension Node where Context == HTML.BodyContext {
     static func itemList<T: Website>(for items: [Item<T>], on site: T, withLink:Bool) -> Node {
         
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d' de 'MMM, yyyy"
+        dateFormatter.dateFormat = "d' de 'MMMM, yyyy"
+        dateFormatter.locale = Locale(identifier: "pt_BR")
         
         func formatDuration(duration:Audio.Duration) -> String{
             

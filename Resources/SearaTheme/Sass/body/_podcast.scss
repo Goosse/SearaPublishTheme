@@ -83,6 +83,9 @@
         }
 }
 
+.compartilhar.baixar .icon{
+        background-image: variables.inline-svg(variables.$svg-baixar);
+}
 .call-to-action{
     font-family: Xilosa;
     font-size: 1.2em;

@@ -22,6 +22,7 @@ public extension Theme {
             htmlFactory: SearaHTMLFactory(),
             resourcePaths: ["Resources/SearaTheme/styles.css",
                             "Resources/SearaTheme/playerScript.js",
+                            "Resources/SearaTheme/downloadFile.js",
                             "Resources/SearaTheme/theme-resources/marca.webp",
                             "Resources/SearaTheme/theme-resources/banner-marca-color-75.webp",
                             "Resources/SearaTheme/theme-resources/facebook.webp",
@@ -123,7 +124,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                           )}
                   ),
                   .wrapper("episodios",
-                           .itemList(for: [item], on: context.site, withLink: false),
+                           .itemList(for: [item], on: context.site, withLink: false, forDownloading: false),
                            .a(.class("call-to-action"), .href(context.sections[item.sectionID].path), .text("Veja Todos"))
                   ),
                   .footer(for: context.site),
@@ -140,6 +141,10 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
         }
         if page.path == "a-esposa-por-tras" {
             return try makeEsposaHTML(for: page, context: context)
+        }
+        
+        if page.path == "baixar-algemas-quebradas" {
+            return try makeSectionDownloadHTML(for: page, context: context)
         }
         
         
@@ -216,6 +221,51 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   ),
                   .footer(for: context.site),
                   .script(.src("/playerScript.js?\(context.site.resourceTag)"))
+            )
+        )
+    }
+    
+    enum VendingMachineError: Error {
+        case invalidSelection
+        case insufficientFunds(coinsNeeded: Int)
+        case outOfStock
+    }
+    enum DownloadPageError: Error {
+        case sectionNotFound
+    }
+    
+    func makeSectionDownloadHTML(for page: Page,
+                        context: PublishingContext<Site>) throws -> HTML {
+        guard let section = context.sections.first(where: { $0.path.string == page.content.description })  // We use the page's description to know which section this download page refers to.
+        else {throw DownloadPageError.sectionNotFound}
+        
+        return HTML(
+            .lang(context.site.language),
+            .head(for: section, on: context.site, titleSeparator: " | ", stylesheetPaths: ["/styles.css?\(context.site.resourceTag)"], rssFeedPath: .defaultForRSSFeed, rssFeedTitle: nil),
+            .body(.class(section.id.rawValue),
+                  .header(for: context, currentPagePath: nil),
+                  .banner("orange", .bannerInfo(
+                    .h1(.text(section.title)),
+                    .p(.class("description"),
+                       .text(section.description)
+                    ),
+                    .shareButton(for: section, on: context.site)
+                  ),
+                  .unwrap(section.imagePath){.div(.class("banner-artwork"),
+                                                  .img(.src($0))
+                  )}
+                  ),
+                  .wrapper("episodios",
+                           .h2(.text("Episódios")),
+                           .itemList(for: section.items, on: context.site, withLink: true, forDownloading: true),
+                           .button(.class("call-to-action"), .text("Inscreva-se no Podcast"), .attribute(named: "onclick", value: "removeClass('inscrever-dialog', 'hidden');disableScrolling();"))
+                  ),
+                  .footer(for: context.site),
+                  .compartilharDialog(section.title, imgUrl:section.imagePath, shareUrl: section.path, on:context.site),
+                  .inscreverDialog(section.title, imgUrl: section.imagePath, on: context.site),
+                  .episodePlayer(imgUrl:section.imagePath),
+                  .script(.src("/playerScript.js?\(context.site.resourceTag)")),
+                  .script(.src("/downloadFile.js?\(context.site.resourceTag)"))
             )
         )
     }
@@ -502,10 +552,10 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     static func itemList<T: Website>(for items: [Item<T>], on site: T) -> Node {
-        return .itemList(for: items, on: site, withLink: true)
+        return .itemList(for: items, on: site, withLink: true, forDownloading: false)
     }
     
-    static func itemList<T: Website>(for items: [Item<T>], on site: T, withLink:Bool) -> Node {
+    static func itemList<T: Website>(for items: [Item<T>], on site: T, withLink:Bool, forDownloading:Bool) -> Node {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d' de 'MMMM, yyyy"
@@ -542,7 +592,10 @@ private extension Node where Context == HTML.BodyContext {
                              .p(.class("description"), .text(item.description)),
                              .tagList(for: item, on: site)
                         ),
-                        .shareButton(for: item, on: site)
+                        .if(forDownloading,
+                            .downloadButton(for: item, url: audio.url),
+                        else: .shareButton(for: item, on: site)
+                        )
                         // .shareButton(item.path)
                     )
                     )
@@ -590,6 +643,14 @@ private extension Node where Context == HTML.BodyContext {
                        .attribute(named: "onclick", value: "shareUrl('\(site.url)\(location.path.absoluteString)', '\(location.title)')"),
                        .div(.class("icon")),
                        .span(.class("label"), "Compartilhar")
+        )
+    }
+    
+    static func downloadButton<T: Website>(for item:Publish.Item<T>, url:URL) -> Node {
+        return .button(.class("compartilhar baixar"),
+                       .attribute(named: "onclick", value: "downloadResource('\(url)', 'radio-seara_\(item.path).mp3', this)"),
+                       .div(.class("icon")),
+                       .span(.class("label"), "Baixar")
         )
     }
     

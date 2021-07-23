@@ -129,6 +129,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   ),
                   .footer(for: context.site),
                   .compartilharDialog(item.title, imgUrl:context.sections[item.sectionID].imagePath, shareUrl: item.path, on:context.site),
+                  .episodePlayer(imgUrl:context.sections[item.sectionID].imagePath),
                   .script(.src("/playerScript.js?\(context.site.resourceTag)"))
             )
         )

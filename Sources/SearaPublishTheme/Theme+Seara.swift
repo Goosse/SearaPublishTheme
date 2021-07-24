@@ -82,7 +82,7 @@ private struct SearaHTMLFactory<Site: Website>: HTMLFactory {
                   .banner("orange", .bannerInfo(
                     .h1(.text(section.title)),
                     .p(.class("description"),
-                       .text(section.description)
+                       section.body.node
                     ),
                     .shareButton(for: section, on: context.site)
                   ),
@@ -623,7 +623,7 @@ private extension Node where Context == HTML.BodyContext {
                         .text(section.title)
                        ),
                        .p(
-                        .text("Sinopse lorem ipsum dolor site amet"))
+                        .text(section.description))
                     )
                 )
             }
